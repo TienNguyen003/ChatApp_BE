@@ -11,6 +11,8 @@ import com.livestream.Repository.user.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -78,5 +80,13 @@ public class FollowerService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         return followerRepository.existsByFollowerIdAndChannelId(user.getId(), channelId);
+    }
+
+    public Page<Follower> getFollowersByChannel(int channelId, Pageable pageable) {
+        // Verify channel exists
+        channelRepository.findById(channelId)
+                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
+
+        return followerRepository.findByChannelId(channelId, pageable);
     }
 }

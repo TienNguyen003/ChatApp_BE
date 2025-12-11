@@ -41,9 +41,9 @@ public class ReportController {
 
     @GetMapping("/list")
     ApiResponse<List<ReportResponse>> getAllReports(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<ReportResponse> pageData = reportService.getAllReports(pageable);
         return ApiResponse.<List<ReportResponse>>builder()
                 .result(pageData.getContent())

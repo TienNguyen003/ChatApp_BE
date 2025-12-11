@@ -47,9 +47,9 @@ public class ClipController {
 
     @GetMapping("/list")
     ApiResponse<List<ClipResponse>> getAllClips(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<ClipResponse> pageData = clipService.getAllClips(pageable);
         return ApiResponse.<List<ClipResponse>>builder()
                 .result(pageData.getContent())

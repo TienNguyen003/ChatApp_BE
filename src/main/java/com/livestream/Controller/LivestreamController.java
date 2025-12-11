@@ -58,9 +58,9 @@ public class LivestreamController {
 
     @GetMapping("/list")
     ApiResponse<List<LivestreamResponse>> getAllLivestreams(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<LivestreamResponse> pageData = livestreamService.getAllLivestreams(pageable);
         return ApiResponse.<List<LivestreamResponse>>builder()
                 .result(pageData.getContent())

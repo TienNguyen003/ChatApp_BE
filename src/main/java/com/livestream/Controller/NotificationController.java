@@ -28,9 +28,9 @@ public class NotificationController {
 
     @GetMapping("/my-notifications")
     ApiResponse<Page<NotificationResponse>> getMyNotifications(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         return ApiResponse.<Page<NotificationResponse>>builder()
                 .result(notificationService.getMyNotifications(pageable))
                 .build();

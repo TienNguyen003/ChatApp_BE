@@ -57,9 +57,9 @@ public class ChatController {
     @GetMapping("/livestream/{livestreamId}")
     ApiResponse<Page<ChatCommentResponse>> getChatMessages(
             @PathVariable int livestreamId,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
-        Pageable pageable = PageRequest.of(page, limit);
+        Pageable pageable = PageRequest.of(page - 1, limit);
         return ApiResponse.<Page<ChatCommentResponse>>builder()
                 .result(chatCommentRepository.findByLivestreamId(livestreamId, pageable)
                         .map(chatCommentMapper::toChatCommentResponse))

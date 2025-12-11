@@ -58,9 +58,9 @@ public class VideoController {
 
     @GetMapping("/list")
     ApiResponse<List<VideoResponse>> getAllVideos(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<VideoResponse> pageData = videoService.getAllVideos(pageable);
         return ApiResponse.<List<VideoResponse>>builder()
                 .result(pageData.getContent())
@@ -71,9 +71,9 @@ public class VideoController {
     @GetMapping("/channel/{channelId}")
     ApiResponse<Page<VideoResponse>> getVideosByChannel(
             @PathVariable int channelId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         return ApiResponse.<Page<VideoResponse>>builder()
                 .result(videoService.getVideosByChannel(channelId, pageable))
                 .build();
@@ -82,9 +82,9 @@ public class VideoController {
     @GetMapping("/category/{categoryId}")
     ApiResponse<Page<VideoResponse>> getVideosByCategory(
             @PathVariable int categoryId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         return ApiResponse.<Page<VideoResponse>>builder()
                 .result(videoService.getVideosByCategory(categoryId, pageable))
                 .build();

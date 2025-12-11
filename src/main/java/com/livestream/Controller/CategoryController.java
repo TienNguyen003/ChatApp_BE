@@ -55,7 +55,7 @@ public class CategoryController {
                 .build();
     }
 
-    @GetMapping("/getAll")
+    @GetMapping
     ApiResponse<List<CategoryResponse>> getAllCategoriesNoPagination() {
         return ApiResponse.<List<CategoryResponse>>builder()
                 .result(categoryService.getAllCategories())
@@ -64,9 +64,9 @@ public class CategoryController {
 
     @GetMapping("/list")
     ApiResponse<List<CategoryResponse>> getAllCategories(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<CategoryResponse> pageData = categoryService.getAllCategories(pageable);
         return ApiResponse.<List<CategoryResponse>>builder()
                 .result(pageData.getContent())

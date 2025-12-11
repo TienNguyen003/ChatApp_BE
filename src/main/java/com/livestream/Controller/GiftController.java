@@ -58,9 +58,9 @@ public class GiftController {
 
     @GetMapping("/list")
     ApiResponse<List<GiftResponse>> getAllGifts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<GiftResponse> pageData = giftService.getAllGifts(pageable);
         return ApiResponse.<List<GiftResponse>>builder()
                 .result(pageData.getContent())

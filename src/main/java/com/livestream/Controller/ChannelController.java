@@ -58,9 +58,9 @@ public class ChannelController {
 
     @GetMapping("/list")
     ApiResponse<List<ChannelResponse>> getAllChannels(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
         Page<ChannelResponse> pageData = channelService.getAllChannels(pageable);
         return ApiResponse.<List<ChannelResponse>>builder()
                 .result(pageData.getContent())
