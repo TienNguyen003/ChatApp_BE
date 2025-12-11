@@ -1,8 +1,12 @@
 package com.livestream.DTO.response.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.livestream.DTO.response.role.RoleResponse;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @Data
