@@ -1,5 +1,7 @@
 package com.livestream.DTO.request.chat;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,6 +11,8 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChatMessageRequest {
+    @JsonProperty("livestream_id")
     int livestreamId;
+    
     String message;
 }

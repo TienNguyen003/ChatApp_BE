@@ -27,7 +27,7 @@ public class AuthenticationController {
     AuthenticationService authenticationService;
     SimpMessagingTemplate messagingTemplate;
 
-    @PostMapping("/token")
+    @PostMapping("/login")
     ApiResponse<AuthenticationResponse> authentication(@RequestBody @Valid AuthenticationRequest authenticationRequest){
         var result = authenticationService.authentication(authenticationRequest);
         messagingTemplate.convertAndSend("/topic/login", "tien");

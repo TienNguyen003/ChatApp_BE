@@ -69,24 +69,28 @@ public class VideoController {
     }
 
     @GetMapping("/channel/{channelId}")
-    ApiResponse<Page<VideoResponse>> getVideosByChannel(
+    ApiResponse<List<VideoResponse>> getVideosByChannel(
             @PathVariable int channelId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        return ApiResponse.<Page<VideoResponse>>builder()
-                .result(videoService.getVideosByChannel(channelId, pageable))
+        Page<VideoResponse> pageData = videoService.getVideosByChannel(channelId, pageable);
+        return ApiResponse.<List<VideoResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 
     @GetMapping("/category/{categoryId}")
-    ApiResponse<Page<VideoResponse>> getVideosByCategory(
+    ApiResponse<List<VideoResponse>> getVideosByCategory(
             @PathVariable int categoryId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        return ApiResponse.<Page<VideoResponse>>builder()
-                .result(videoService.getVideosByCategory(categoryId, pageable))
+        Page<VideoResponse> pageData = videoService.getVideosByCategory(categoryId, pageable);
+        return ApiResponse.<List<VideoResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 

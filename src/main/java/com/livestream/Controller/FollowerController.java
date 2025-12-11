@@ -41,7 +41,7 @@ public class FollowerController {
                 .build();
     }
 
-    @GetMapping("/channel/{channelId}")
+    @GetMapping("/follow/{channelId}")
     ApiResponse<Page<Follower>> getFollowersByChannel(
             @PathVariable int channelId,
             @RequestParam(defaultValue = "1") int page,
