@@ -1,5 +1,7 @@
 package com.livestream.Controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -7,56 +9,51 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.livestream.DTO.request.notification.NotificationRequest;
+import com.livestream.DTO.request.reaction.ReactionRequest;
 import com.livestream.DTO.response.ApiResponse;
-import com.livestream.DTO.response.notification.NotificationResponse;
-import com.livestream.Service.notification.NotificationService;
+import com.livestream.DTO.response.reaction.ReactionResponse;
+import com.livestream.Service.reaction.ReactionService;
+import com.livestream.Util.PaginationUtil;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 @RestController
-@RequestMapping("${api.prefix}notifications")
+@RequestMapping("${api.prefix}reactions")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class NotificationController {
-    NotificationService notificationService;
+public class ReactionController {
+    ReactionService reactionService;
 
     @PostMapping
-    ApiResponse<NotificationResponse> createNotification(@RequestBody NotificationRequest request) {
-        return ApiResponse.<NotificationResponse>builder()
-                .result(notificationService.createNotification(request))
+    ApiResponse<ReactionResponse> addReaction(@RequestBody ReactionRequest request) {
+        return ApiResponse.<ReactionResponse>builder()
+                .result(reactionService.addReaction(request))
                 .build();
     }
 
-    @GetMapping("/my-notifications")
-    ApiResponse<Page<NotificationResponse>> getMyNotifications(
+    @GetMapping("/livestream/{livestreamId}")
+    ApiResponse<List<ReactionResponse>> getLivestreamReactions(
+            @PathVariable int livestreamId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        return ApiResponse.<Page<NotificationResponse>>builder()
-                .result(notificationService.getMyNotifications(pageable))
-                .build();
-    }
-
-    @PutMapping("/{id}/read")
-    ApiResponse<Void> markAsRead(@PathVariable int id) {
-        notificationService.markAsRead(id);
-        return ApiResponse.<Void>builder()
-                .message("Đánh dấu đã đọc thành công")
+        Page<ReactionResponse> pageData = reactionService.getLivestreamReactions(livestreamId, pageable);
+        return ApiResponse.<List<ReactionResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 
     @DeleteMapping("/{id}")
-    ApiResponse<Void> deleteNotification(@PathVariable int id) {
-        notificationService.deleteNotification(id);
+    ApiResponse<Void> deleteReaction(@PathVariable int id) {
+        reactionService.deleteReaction(id);
         return ApiResponse.<Void>builder().build();
     }
 }

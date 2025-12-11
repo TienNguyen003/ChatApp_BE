@@ -1,10 +1,8 @@
 package com.livestream.Controller;
 
-import com.livestream.Service.CloudinaryService;
-import com.livestream.DTO.response.ApiResponse;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.io.IOException;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,8 +10,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.util.List;
+import com.livestream.DTO.response.ApiResponse;
+import com.livestream.Service.CloudinaryService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("${api.prefix}files")
@@ -25,7 +27,7 @@ public class FileUploadController {
 
     @PostMapping("/upload")
     public ApiResponse<List<String>> uploadImage(@RequestParam("file") MultipartFile[] file,
-                                                 @RequestParam("folder") String folderName) throws IOException {
+            @RequestParam("folder") String folderName) throws IOException {
         return ApiResponse.<List<String>>builder()
                 .result(cloudinaryService.uploadFile(file, folderName))
                 .build();

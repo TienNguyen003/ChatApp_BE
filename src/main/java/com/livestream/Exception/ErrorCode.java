@@ -70,6 +70,12 @@ public enum ErrorCode {
 	MODERATOR_NOT_EXISTED(504, "Người kiểm duyệt không tồn tại.", HttpStatus.NOT_FOUND),
 	ALREADY_MODERATOR(502, "Người dùng đã là kiểm duyệt viên.", HttpStatus.BAD_REQUEST),
 
+	// reaction
+	REACTION_NOT_EXISTED(504, "Reaction không tồn tại.", HttpStatus.NOT_FOUND),
+
+	// watch history
+	WATCH_HISTORY_NOT_EXISTED(504, "Lịch sử xem không tồn tại.", HttpStatus.NOT_FOUND),
+
 	;
 
 	ErrorCode(int code, String message, HttpStatusCode statusCode) {
