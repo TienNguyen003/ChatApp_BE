@@ -51,4 +51,6 @@ build/
 # Windows
 Thumbs.db
 
-/application.yml
+# Application config
+**/application.yml
+application.yml
