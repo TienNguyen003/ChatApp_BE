@@ -1,6 +1,8 @@
 package com.livestream.Entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.livestream.Entity.role.Role;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -12,10 +14,10 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class Users {
 	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
 
 	String username;
 
@@ -36,6 +38,6 @@ public class User {
 
 	int status;
 
-	@OneToOne
-	String role;
+	@ManyToOne
+	Role role;
 }

@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserRsPass {
     @NotBlank(message = "Không được để trống")
-    String id;
+    int id;
 
     @NotBlank(message = "Mật khẩu mới không được để trống")
     String new_pass;

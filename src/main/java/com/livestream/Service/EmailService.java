@@ -19,14 +19,14 @@ import java.util.UUID;
 public class EmailService {
     JavaMailSender mailSender;
 
-    public String requestPasswordReset(String id, String email, String pass) {
+    public String requestPasswordReset(int id, String email, String pass) {
         String token = UUID.randomUUID().toString() + "hrm" + LocalDateTime.now().plusHours(1) + "hrm" + pass;
         this.sendPasswordResetEmail(id, email, token);
 
         return "Password reset email sent";
     }
 
-    public void sendPasswordResetEmail(String id, String to, String token) {
+    public void sendPasswordResetEmail(int id, String to, String token) {
         String resetUrl = "localhost:3000/users/reset-password/" + id + "?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();

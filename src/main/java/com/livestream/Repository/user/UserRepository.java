@@ -1,6 +1,9 @@
 package com.livestream.Repository.user;
 
-import com.livestream.Entity.user.User;
+import com.livestream.Entity.user.Users;
+
+import jakarta.persistence.criteria.CriteriaBuilder.In;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,19 +14,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String>{
+public interface UserRepository extends JpaRepository<Users, Integer> {
 	boolean existsByUsername(String username);
-	boolean existsByEmployeeId(int id);
 
-	Optional<User> findByUsername(String username);
+	Optional<Users> findByUsername(String username);
 
-	@Query("SELECT u FROM User u WHERE u.status = 1")
-	List<User> findAllUserActive();
+	@Query("SELECT u FROM Users u WHERE u.status = 1")
+	List<Users> findAllUserActive();
 
-	@Query("SELECT u FROM User u WHERE" +
+	@Query("SELECT u FROM Users u WHERE" +
 			"(:username IS NULL OR u.username LIKE %:username%) AND" +
-			"(:role IS NULL OR u.role.name LIKE %:role%) AND" +
-			"(:name IS NULL OR u.employee.name LIKE %:name%)")
-	Page<User> findByName
+			"(:role IS NULL OR u.role.name LIKE %:role%)")
+	Page<Users> findByName
 			(String name, String username, String role, Pageable pageable);
 }

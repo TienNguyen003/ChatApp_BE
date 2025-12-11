@@ -1,6 +1,6 @@
 package com.livestream.Mapper.user;
 
-import com.livestream.Entity.user.User;
+import com.livestream.Entity.user.Users;
 import com.livestream.DTO.request.user.UserCreationRequest;
 import com.livestream.DTO.request.user.UserUpdateRequest;
 import com.livestream.DTO.response.user.UserResponse;
@@ -10,10 +10,10 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    User toUser(UserCreationRequest request);
+    Users toUser(UserCreationRequest request);
 
-    UserResponse toUserResponse(User user);
+    UserResponse toUserResponse(Users user);
 
     @Mapping(target = "role", ignore = true)
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    void updateUser(@MappingTarget Users user, UserUpdateRequest request);
 }

@@ -19,7 +19,7 @@ import com.livestream.DTO.request.token.TokenRequest;
 import com.livestream.DTO.response.token.AuthenticationResponse;
 import com.livestream.DTO.response.token.TokenResponse;
 import com.livestream.Entity.token.Token;
-import com.livestream.Entity.user.User;
+import com.livestream.Entity.user.Users;
 import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
 import com.livestream.Repository.token.TokenRepository;
@@ -152,7 +152,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    private String generateToken(User user) {
+    private String generateToken(Users user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwsClaimsSet = new JWTClaimsSet.Builder()
                 .subject(user.getUsername())
@@ -177,7 +177,7 @@ public class AuthenticationService {
         }
     }
 
-    private String buildScope(User user) {
+    private String buildScope(Users user) {
         StringJoiner stringJoiner = new StringJoiner(" ");
         stringJoiner.add("ROLE_" + user.getRole());
 
