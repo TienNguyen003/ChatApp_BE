@@ -1,0 +1,54 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# =======================================
+# Build output
+# =======================================
+target/
+.mvn/
+build/
+
+# =======================================
+# IDE settings
+# =======================================
+# IntelliJ
+.idea/
+*.iml
+*.iws
+
+# VS Code
+.vscode/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+.nb-gradle/
+
+# =======================================
+# OS-specific files
+# =======================================
+# Mac
+.DS_Store
+
+# Windows
+Thumbs.db
+
+/application.yml
