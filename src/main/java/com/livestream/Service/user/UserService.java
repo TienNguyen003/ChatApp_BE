@@ -7,6 +7,7 @@ import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.user.UserMapper;
 import com.livestream.Service.EmailService;
+import com.livestream.Util.PaginationUtil;
 import com.livestream.DTO.request.user.UserChangePassRequest;
 import com.livestream.DTO.request.user.UserCreationRequest;
 import com.livestream.DTO.request.user.UserRsPass;
@@ -64,12 +65,7 @@ public class UserService {
 	public PageCustom getPagination(int pageNumber, String name, String username, String role){
 		Pageable pageable = PageRequest.of(pageNumber - 1, 30);
 		Page<Users> page = userRepository.findByName(name, username, role, pageable);
-		return PageCustom.builder()
-				.totalPages(String.valueOf(page.getTotalPages()))
-				.totalItems(String.valueOf(page.getTotalElements()))
-				.totalItemsPerPage(String.valueOf(page.getNumberOfElements()))
-				.currentPage(String.valueOf(pageNumber))
-				.build();
+		return PaginationUtil.buildPageCustom(page, pageNumber);
 	}
 
 	@PostAuthorize("returnObject.id == authentication.principal.getClaimAsString('id') or !hasRole('NHÂN')")

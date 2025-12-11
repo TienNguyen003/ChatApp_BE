@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PageCustom {
-    String totalItems;
-    String totalItemsPerPage;
-    String currentPage;
-    String totalPages;
+    String total_items;
+    String total_items_per_page;
+    String current_page;
+    String total_pages;
 }

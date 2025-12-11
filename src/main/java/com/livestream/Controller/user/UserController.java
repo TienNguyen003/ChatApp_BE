@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
-public class  UserController {
+public class UserController {
 	UserService userService;
 	SimpMessagingTemplate messagingTemplate;
 
@@ -31,21 +31,22 @@ public class  UserController {
 	@PostMapping
 	ApiResponse<UserResponse> createUser(@RequestBody @Valid UserCreationRequest request) {
 		ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
-		
+
 		apiResponse.setResult(userService.createUser(request));
-		
+
 		return apiResponse;
 	}
 
 	// @PreAuthorize("@requiredPermission.checkPermission('USER_VIEW')")
 	@GetMapping
-	ApiResponse<List<UserResponse>> getUsers(@RequestParam("page") int pageNumber ,
-											 @RequestParam(name = "name", required = false) String name,
-											 @RequestParam(name = "username", required = false) String username,
-											 @RequestParam(name = "role", required = false) String role) {
+	ApiResponse<List<UserResponse>> getUsers(@RequestParam("page") int page,
+			@RequestParam(name = "limit", defaultValue = "30") int limit,
+			@RequestParam(name = "name", required = false) String name,
+			@RequestParam(name = "username", required = false) String username,
+			@RequestParam(name = "role", required = false) String role) {
 		return ApiResponse.<List<UserResponse>>builder()
-				.result(userService.getUsers(name, username, role, pageNumber, 30))
-				.page(userService.getPagination(pageNumber, name, username, role))
+				.result(userService.getUsers(name, username, role, page, limit))
+				.page(userService.getPagination(page, name, username, role))
 				.build();
 	}
 
@@ -86,7 +87,7 @@ public class  UserController {
 				.build();
 	}
 
-//	@PreAuthorize("@requiredPermission.checkPermission('USER_CPASS')")
+	// @PreAuthorize("@requiredPermission.checkPermission('USER_CPASS')")
 	@PutMapping("/change-pass")
 	ApiResponse<String> changePass(@RequestBody @Valid UserChangePassRequest request) {
 		return ApiResponse.<String>builder()

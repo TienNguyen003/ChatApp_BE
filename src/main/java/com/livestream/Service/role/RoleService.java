@@ -10,6 +10,8 @@ import com.livestream.DTO.request.role.RoleUpdateRequest;
 import com.livestream.DTO.response.role.RoleResponse;
 import com.livestream.Repository.role.PermissionRepository;
 import com.livestream.Repository.role.RoleRepository;
+import com.livestream.Util.PaginationUtil;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -59,12 +61,7 @@ public class RoleService {
     public PageCustom getPagination(int pageNumber, String name){
         Pageable pageable = PageRequest.of(pageNumber - 1, 30);
         Page<Role> page = roleRepository.findByName(name, pageable);
-        return PageCustom.builder()
-                .totalPages(String.valueOf(page.getTotalPages()))
-                .totalItems(String.valueOf(page.getTotalElements()))
-                .totalItemsPerPage(String.valueOf(page.getNumberOfElements()))
-                .currentPage(String.valueOf(pageNumber))
-                .build();
+        return PaginationUtil.buildPageCustom(page, pageNumber);
     }
 
     public RoleResponse getRole(String name){
