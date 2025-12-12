@@ -54,3 +54,9 @@ Thumbs.db
 # Application config
 **/application.yml
 application.yml
+
+# =======================================
+# Documentation files
+# =======================================
+docs/
+docs/**/*.md
