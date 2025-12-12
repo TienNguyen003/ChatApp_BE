@@ -48,4 +48,21 @@ public class Livestream {
     @ManyToMany
     @JoinTable(name = "livestream_tags", joinColumns = @JoinColumn(name = "livestream_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     Set<Tag> tags;
+
+    // Chat Restrictions
+    @Builder.Default
+    @Column(nullable = false)
+    int slowModeSeconds = 0; // 0 = disabled
+
+    @Builder.Default
+    @Column(nullable = false)
+    boolean followersOnlyMode = false;
+
+    @Builder.Default
+    @Column(nullable = false)
+    boolean subscribersOnlyMode = false;
+
+    @Builder.Default
+    @Column(nullable = false)
+    boolean emotesOnlyMode = false;
 }

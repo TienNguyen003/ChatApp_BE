@@ -83,6 +83,21 @@ public enum ErrorCode {
 	TAG_NOT_EXISTED(504, "Tag không tồn tại.", HttpStatus.NOT_FOUND),
 	TAG_EXISTED(502, "Tag đã tồn tại.", HttpStatus.BAD_REQUEST),
 
+	// ban
+	USER_BANNED(403, "Bạn đã bị cấm khỏi kênh này.", HttpStatus.FORBIDDEN),
+	USER_ALREADY_BANNED(502, "Người dùng đã bị cấm.", HttpStatus.BAD_REQUEST),
+	BAN_NOT_FOUND(504, "Không tìm thấy lệnh cấm.", HttpStatus.NOT_FOUND),
+	INVALID_BAN_EXPIRY(400, "Cấm tạm thời phải có thời gian hết hạn.", HttpStatus.BAD_REQUEST),
+
+	// playlist
+	PLAYLIST_NOT_FOUND(504, "Playlist không tồn tại.", HttpStatus.NOT_FOUND),
+	VIDEO_ALREADY_IN_PLAYLIST(502, "Video đã có trong playlist.", HttpStatus.BAD_REQUEST),
+
+	// chat restrictions
+	SLOW_MODE_ACTIVE(429, "Bạn đang gửi tin nhắn quá nhanh.", HttpStatus.TOO_MANY_REQUESTS),
+	FOLLOWERS_ONLY_MODE(403, "Chỉ người theo dõi mới được chat.", HttpStatus.FORBIDDEN),
+	SUBSCRIBERS_ONLY_MODE(403, "Chỉ người đăng ký mới được chat.", HttpStatus.FORBIDDEN),
+
 	;
 
 	ErrorCode(int code, String message, HttpStatusCode statusCode) {
