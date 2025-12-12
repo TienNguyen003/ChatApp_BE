@@ -2,11 +2,13 @@ package com.livestream.Entity.livestream;
 
 import com.livestream.Entity.channel.Channel;
 import com.livestream.Entity.category.Category;
+import com.livestream.Entity.tag.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -42,4 +44,8 @@ public class Livestream {
     String streamUrl;
 
     String thumbnailUrl;
+
+    @ManyToMany
+    @JoinTable(name = "livestream_tags", joinColumns = @JoinColumn(name = "livestream_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    Set<Tag> tags;
 }

@@ -76,6 +76,13 @@ public enum ErrorCode {
 	// watch history
 	WATCH_HISTORY_NOT_EXISTED(504, "Lịch sử xem không tồn tại.", HttpStatus.NOT_FOUND),
 
+	// stream key
+	INVALID_STREAM_KEY(504, "Stream key không hợp lệ.", HttpStatus.UNAUTHORIZED),
+
+	// tag
+	TAG_NOT_EXISTED(504, "Tag không tồn tại.", HttpStatus.NOT_FOUND),
+	TAG_EXISTED(502, "Tag đã tồn tại.", HttpStatus.BAD_REQUEST),
+
 	;
 
 	ErrorCode(int code, String message, HttpStatusCode statusCode) {

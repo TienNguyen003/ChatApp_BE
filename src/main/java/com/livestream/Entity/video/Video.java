@@ -2,9 +2,13 @@ package com.livestream.Entity.video;
 
 import com.livestream.Entity.channel.Channel;
 import com.livestream.Entity.category.Category;
+import com.livestream.Entity.tag.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -39,4 +43,10 @@ public class Video {
     String videoUrl;
 
     String thumbnailUrl;
+
+    LocalDateTime uploadedAt;
+
+    @ManyToMany
+    @JoinTable(name = "video_tags", joinColumns = @JoinColumn(name = "video_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    Set<Tag> tags;
 }

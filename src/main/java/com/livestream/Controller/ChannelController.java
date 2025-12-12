@@ -19,6 +19,7 @@ import com.livestream.DTO.request.channel.ChannelCreationRequest;
 import com.livestream.DTO.request.channel.ChannelUpdateRequest;
 import com.livestream.DTO.response.ApiResponse;
 import com.livestream.DTO.response.channel.ChannelResponse;
+import com.livestream.DTO.response.channel.StreamKeyResponse;
 import com.livestream.Service.channel.ChannelService;
 import com.livestream.Util.PaginationUtil;
 
@@ -72,5 +73,26 @@ public class ChannelController {
     ApiResponse<Void> deleteChannel(@PathVariable int id) {
         channelService.deleteChannel(id);
         return ApiResponse.<Void>builder().build();
+    }
+
+    @GetMapping("/{channelId}/stream-key")
+    ApiResponse<StreamKeyResponse> getStreamKey(@PathVariable int channelId) {
+        return ApiResponse.<StreamKeyResponse>builder()
+                .result(channelService.getStreamKey(channelId))
+                .build();
+    }
+
+    @PostMapping("/{channelId}/stream-key/reset")
+    ApiResponse<StreamKeyResponse> resetStreamKey(@PathVariable int channelId) {
+        return ApiResponse.<StreamKeyResponse>builder()
+                .result(channelService.resetStreamKey(channelId))
+                .build();
+    }
+
+    @GetMapping("/validate-stream-key")
+    ApiResponse<Boolean> validateStreamKey(@RequestParam String streamKey) {
+        return ApiResponse.<Boolean>builder()
+                .result(channelService.validateStreamKey(streamKey))
+                .build();
     }
 }

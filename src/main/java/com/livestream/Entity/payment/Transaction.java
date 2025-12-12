@@ -1,4 +1,4 @@
-package com.livestream.Entity.channel;
+package com.livestream.Entity.payment;
 
 import com.livestream.Entity.user.Users;
 import jakarta.persistence.*;
@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "channels")
-public class Channel {
+@Table(name = "transactions")
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -24,19 +24,21 @@ public class Channel {
     @JoinColumn(name = "user_id")
     Users user;
 
-    String name;
+    String transactionType; // GIFT, SUBSCRIPTION
 
-    @Column(columnDefinition = "TEXT")
+    double amount;
+
+    String currency;
+
+    String paymentMethod; // VNPAY, STRIPE, PAYPAL
+
+    String status; // PENDING, COMPLETED, FAILED, REFUNDED
+
+    String transactionId;
+
     String description;
 
-    String avatarUrl;
-
-    String bannerUrl;
-
-    int followersCount;
-
-    @Column(unique = true)
-    String streamKey;
-
     LocalDateTime createdAt;
+
+    LocalDateTime completedAt;
 }

@@ -1,5 +1,7 @@
 package com.livestream.DTO.request.video;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.*;
@@ -28,4 +30,7 @@ public class VideoCreationRequest {
 
     @JsonProperty("thumbnail_url")
     String thumbnailUrl;
+
+    @Builder.Default
+    LocalDateTime uploadedAt = LocalDateTime.now();
 }

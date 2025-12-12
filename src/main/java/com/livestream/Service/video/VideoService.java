@@ -19,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -39,6 +41,7 @@ public class VideoService {
         video.setChannel(channel);
         video.setCategory(category);
         video.setViews(0);
+        video.setUploadedAt(LocalDateTime.now());
 
         return videoMapper.toVideoResponse(videoRepository.save(video));
     }
