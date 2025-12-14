@@ -25,11 +25,15 @@ public class SearchController {
     SearchService searchService;
 
     @GetMapping
-    ApiResponse<SearchResponse> globalSearch(
+    ApiResponse<List<SearchResponse>> globalSearch(
             @RequestParam String keyword,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "12") int limit) {
-        return ApiResponse.<SearchResponse>builder()
-                .result(searchService.globalSearch(keyword, limit))
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<SearchResponse> pageData = searchService.globalSearch(keyword, pageable);
+        return ApiResponse.<List<SearchResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 

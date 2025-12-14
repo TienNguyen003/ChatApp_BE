@@ -69,35 +69,41 @@ public class LivestreamController {
     }
 
     @GetMapping("/channel/{channelId}")
-    ApiResponse<Page<LivestreamResponse>> getLivestreamsByChannel(
+    ApiResponse<List<LivestreamResponse>> getLivestreamsByChannel(
             @PathVariable int channelId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ApiResponse.<Page<LivestreamResponse>>builder()
-                .result(livestreamService.getLivestreamsByChannel(channelId, pageable))
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByChannel(channelId, pageable);
+        return ApiResponse.<List<LivestreamResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 
     @GetMapping("/status/{status}")
-    ApiResponse<Page<LivestreamResponse>> getLivestreamsByStatus(
+    ApiResponse<List<LivestreamResponse>> getLivestreamsByStatus(
             @PathVariable String status,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ApiResponse.<Page<LivestreamResponse>>builder()
-                .result(livestreamService.getLivestreamsByStatus(status, pageable))
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByStatus(status, pageable);
+        return ApiResponse.<List<LivestreamResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 
     @GetMapping("/category/{categoryId}")
-    ApiResponse<Page<LivestreamResponse>> getLivestreamsByCategory(
+    ApiResponse<List<LivestreamResponse>> getLivestreamsByCategory(
             @PathVariable int categoryId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ApiResponse.<Page<LivestreamResponse>>builder()
-                .result(livestreamService.getLivestreamsByCategory(categoryId, pageable))
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByCategory(categoryId, pageable);
+        return ApiResponse.<List<LivestreamResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 

@@ -1,12 +1,19 @@
 package com.livestream.Service.search;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.response.channel.ChannelResponse;
 import com.livestream.DTO.response.livestream.LivestreamResponse;
 import com.livestream.DTO.response.search.SearchResponse;
 import com.livestream.DTO.response.video.VideoResponse;
-import com.livestream.Entity.channel.Channel;
-import com.livestream.Entity.livestream.Livestream;
-import com.livestream.Entity.video.Video;
 import com.livestream.Mapper.channel.ChannelMapper;
 import com.livestream.Mapper.livestream.LivestreamMapper;
 import com.livestream.Mapper.video.VideoMapper;
@@ -14,18 +21,10 @@ import com.livestream.Repository.channel.ChannelRepository;
 import com.livestream.Repository.history.WatchHistoryRepository;
 import com.livestream.Repository.livestream.LivestreamRepository;
 import com.livestream.Repository.video.VideoRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,9 +39,7 @@ public class SearchService {
     LivestreamMapper livestreamMapper;
     VideoMapper videoMapper;
 
-    public SearchResponse globalSearch(String keyword, int limit) {
-        Pageable pageable = PageRequest.of(0, limit);
-
+    public Page<SearchResponse> globalSearch(String keyword, Pageable pageable) {
         List<ChannelResponse> channels = channelRepository.searchChannels(keyword, pageable)
                 .stream()
                 .map(channelMapper::toChannelResponse)
@@ -58,12 +55,14 @@ public class SearchService {
                 .map(videoMapper::toVideoResponse)
                 .collect(Collectors.toList());
 
-        return SearchResponse.builder()
+        SearchResponse response = SearchResponse.builder()
                 .channels(channels)
                 .livestreams(livestreams)
                 .videos(videos)
                 .totalResults(channels.size() + livestreams.size() + videos.size())
                 .build();
+        
+        return new PageImpl<>(List.of(response), pageable, 1);
     }
 
     public Page<ChannelResponse> searchChannels(String keyword, Pageable pageable) {
