@@ -2,11 +2,13 @@ package com.livestream.Service.follower;
 
 import com.livestream.Entity.channel.Channel;
 import com.livestream.Entity.follower.Follower;
+import com.livestream.Entity.livestream.Livestream;
 import com.livestream.Entity.user.Users;
 import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
 import com.livestream.Repository.channel.ChannelRepository;
 import com.livestream.Repository.follower.FollowerRepository;
+import com.livestream.Repository.livestream.LivestreamRepository;
 import com.livestream.Repository.user.UserRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,76 +19,104 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import org.springframework.data.domain.PageImpl;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class FollowerService {
-    FollowerRepository followerRepository;
-    ChannelRepository channelRepository;
-    UserRepository userRepository;
+        LivestreamRepository livestreamRepository;
+        FollowerRepository followerRepository;
+        ChannelRepository channelRepository;
+        UserRepository userRepository;
 
-    public void followChannel(int channelId) {
-        var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
+        public void followChannel(int channelId) {
+                var context = SecurityContextHolder.getContext();
+                String name = context.getAuthentication().getName();
 
-        Users user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                Users user = userRepository.findByUsername(name)
+                                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        Channel channel = channelRepository.findById(channelId)
-                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
+                Channel channel = channelRepository.findById(channelId)
+                                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
 
-        if (followerRepository.existsByFollowerIdAndChannelId(user.getId(), channelId)) {
-            throw new AppException(ErrorCode.ALREADY_FOLLOWING);
+                if (followerRepository.existsByFollowerIdAndChannelId(user.getId(), channelId)) {
+                        throw new AppException(ErrorCode.ALREADY_FOLLOWING);
+                }
+
+                Follower follower = Follower.builder()
+                                .follower(user)
+                                .channel(channel)
+                                .createdAt(LocalDateTime.now())
+                                .build();
+
+                followerRepository.save(follower);
+
+                // Update followers count
+                channel.setFollowersCount(channel.getFollowersCount() + 1);
+                channelRepository.save(channel);
         }
 
-        Follower follower = Follower.builder()
-                .follower(user)
-                .channel(channel)
-                .createdAt(LocalDateTime.now())
-                .build();
+        public void unfollowChannel(int channelId) {
+                var context = SecurityContextHolder.getContext();
+                String name = context.getAuthentication().getName();
 
-        followerRepository.save(follower);
+                Users user = userRepository.findByUsername(name)
+                                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        // Update followers count
-        channel.setFollowersCount(channel.getFollowersCount() + 1);
-        channelRepository.save(channel);
-    }
+                Follower follower = followerRepository.findByFollowerIdAndChannelId(user.getId(), channelId)
+                                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOLLOWING));
 
-    public void unfollowChannel(int channelId) {
-        var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
+                followerRepository.delete(follower);
 
-        Users user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                // Update followers count
+                Channel channel = channelRepository.findById(channelId)
+                                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
+                channel.setFollowersCount(Math.max(0, channel.getFollowersCount() - 1));
+                channelRepository.save(channel);
+        }
 
-        Follower follower = followerRepository.findByFollowerIdAndChannelId(user.getId(), channelId)
-                .orElseThrow(() -> new AppException(ErrorCode.NOT_FOLLOWING));
+        public boolean isFollowing(int channelId) {
+                var context = SecurityContextHolder.getContext();
+                String name = context.getAuthentication().getName();
 
-        followerRepository.delete(follower);
+                Users user = userRepository.findByUsername(name)
+                                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        // Update followers count
-        Channel channel = channelRepository.findById(channelId)
-                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
-        channel.setFollowersCount(Math.max(0, channel.getFollowersCount() - 1));
-        channelRepository.save(channel);
-    }
+                return followerRepository.existsByFollowerIdAndChannelId(user.getId(), channelId);
+        }
 
-    public boolean isFollowing(int channelId) {
-        var context = SecurityContextHolder.getContext();
-        String name = context.getAuthentication().getName();
+        public Page<Follower> getFollowersByChannel(int channelId, Pageable pageable) {
+                // Verify channel exists
+                channelRepository.findById(channelId)
+                                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
 
-        Users user = userRepository.findByUsername(name)
-                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+                return followerRepository.findByChannelId(channelId, pageable);
+        }
 
-        return followerRepository.existsByFollowerIdAndChannelId(user.getId(), channelId);
-    }
+        public Page<Follower> getMyFollowing(Pageable pageable) {
+                var context = SecurityContextHolder.getContext();
+                String name = context.getAuthentication().getName();
 
-    public Page<Follower> getFollowersByChannel(int channelId, Pageable pageable) {
-        // Verify channel exists
-        channelRepository.findById(channelId)
-                .orElseThrow(() -> new AppException(ErrorCode.CHANNEL_NOT_EXISTED));
+                Users user = userRepository.findByUsername(name)
+                                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return followerRepository.findByChannelId(channelId, pageable);
-    }
+                Page<Follower> followPage = followerRepository.findByFollowerId(user.getId(), pageable);
+                List<Follower> follow = followPage.getContent();
+
+                for (Follower f : follow) {
+                        List<Livestream> livestream = livestreamRepository
+                                        .findByChannelId(f.getChannel().getId(), pageable).getContent();
+                        if (livestream.size() > 0 && livestream.get(0) != null) {
+                                f.getChannel().setLiveStreaming(true);
+                                f.setLivestreamID(livestream.get(0).getId());
+                                f.setLivestreamTitle(livestream.get(0).getTitle());
+                                f.setThumbnailUrl(livestream.get(0).getThumbnailUrl());
+                                f.setViewersCount(String.valueOf(livestream.get(0).getViewersCount()));
+                        }
+                }
+
+                return new PageImpl<>(follow, pageable, followPage.getTotalElements());
+        }
 }

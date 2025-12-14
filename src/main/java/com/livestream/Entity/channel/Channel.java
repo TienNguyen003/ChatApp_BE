@@ -35,6 +35,8 @@ public class Channel {
 
     int followersCount;
 
+    boolean isLiveStreaming;
+
     @Column(unique = true)
     String streamKey;
 
