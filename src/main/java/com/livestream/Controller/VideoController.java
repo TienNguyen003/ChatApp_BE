@@ -49,6 +49,27 @@ public class VideoController {
                 .build();
     }
 
+    @PutMapping("/{id}/view")
+    ApiResponse<VideoResponse> incrementViewCount(@PathVariable int id) {
+        return ApiResponse.<VideoResponse>builder()
+                .result(videoService.incrementViewCount(id))
+                .build();
+    }
+
+    @PutMapping("/{id}/like")
+    ApiResponse<VideoResponse> incrementLikeCount(@PathVariable int id) {
+        return ApiResponse.<VideoResponse>builder()
+                .result(videoService.incrementLikeCount(id))
+                .build();
+    }
+
+    @PutMapping("/{id}/dislike")
+    ApiResponse<VideoResponse> incrementDislikeCount(@PathVariable int id) {
+        return ApiResponse.<VideoResponse>builder()
+                .result(videoService.incrementDislikeCount(id))
+                .build();
+    }
+
     @GetMapping("/{id}")
     ApiResponse<VideoResponse> getVideo(@PathVariable int id) {
         return ApiResponse.<VideoResponse>builder()

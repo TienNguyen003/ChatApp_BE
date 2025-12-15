@@ -5,12 +5,14 @@ import com.livestream.DTO.request.video.VideoUpdateRequest;
 import com.livestream.DTO.response.video.VideoResponse;
 import com.livestream.Entity.category.Category;
 import com.livestream.Entity.channel.Channel;
+import com.livestream.Entity.tag.Tag;
 import com.livestream.Entity.video.Video;
 import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.video.VideoMapper;
 import com.livestream.Repository.category.CategoryRepository;
 import com.livestream.Repository.channel.ChannelRepository;
+import com.livestream.Repository.tag.TagRepository;
 import com.livestream.Repository.video.VideoRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,7 @@ public class VideoService {
     VideoRepository videoRepository;
     ChannelRepository channelRepository;
     CategoryRepository categoryRepository;
+    TagRepository tagRepository;
     VideoMapper videoMapper;
 
     public VideoResponse createVideo(VideoCreationRequest request) {
@@ -43,6 +49,17 @@ public class VideoService {
         video.setViews(0);
         video.setUploadedAt(LocalDateTime.now());
 
+        // Add tags if provided
+        if (request.getTagIds() != null && !request.getTagIds().isEmpty()) {
+            Set<Tag> tags = request.getTagIds().stream()
+                    .map(tagId -> tagRepository.findById(tagId)
+                            .orElseThrow(() -> new AppException(ErrorCode.TAG_NOT_EXISTED)))
+                    .collect(Collectors.toSet());
+            video.setTags(tags);
+        } else {
+            video.setTags(new HashSet<>());
+        }
+
         return videoMapper.toVideoResponse(videoRepository.save(video));
     }
 
@@ -51,6 +68,37 @@ public class VideoService {
                 .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED));
 
         videoMapper.updateVideo(video, request);
+
+        // Update tags if provided
+        if (request.getTagIds() != null && !request.getTagIds().isEmpty()) {
+            Set<Tag> tags = request.getTagIds().stream()
+                    .map(tagId -> tagRepository.findById(tagId)
+                            .orElseThrow(() -> new AppException(ErrorCode.TAG_NOT_EXISTED)))
+                    .collect(Collectors.toSet());
+            video.setTags(tags);
+        }
+
+        return videoMapper.toVideoResponse(videoRepository.save(video));
+    }
+
+    public VideoResponse incrementViewCount(int id) {
+        Video video = videoRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED));
+        video.setViews(video.getViews() + 1);
+        return videoMapper.toVideoResponse(videoRepository.save(video));
+    }
+
+    public VideoResponse incrementLikeCount(int id) {
+        Video video = videoRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED));
+        video.setLikes(video.getLikes() + 1);
+        return videoMapper.toVideoResponse(videoRepository.save(video));
+    }
+
+    public VideoResponse incrementDislikeCount(int id) {
+        Video video = videoRepository.findById(id)
+                .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED));
+        video.setDislikes(video.getDislikes() + 1);
         return videoMapper.toVideoResponse(videoRepository.save(video));
     }
 

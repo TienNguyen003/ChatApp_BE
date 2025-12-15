@@ -60,9 +60,9 @@ public class ClipController {
     @GetMapping("/livestream/{livestreamId}")
     ApiResponse<Page<ClipResponse>> getClipsByLivestream(
             @PathVariable int livestreamId,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return ApiResponse.<Page<ClipResponse>>builder()
                 .result(clipService.getClipsByLivestream(livestreamId, pageable))
                 .build();
@@ -71,9 +71,9 @@ public class ClipController {
     @GetMapping("/channel/{channelId}")
     ApiResponse<Page<ClipResponse>> getClipsByChannel(
             @PathVariable int channelId,
-            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size);
         return ApiResponse.<Page<ClipResponse>>builder()
                 .result(clipService.getClipsByChannel(channelId, pageable))
                 .build();

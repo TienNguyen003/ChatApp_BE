@@ -1,6 +1,7 @@
 package com.livestream.DTO.request.video;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -30,6 +31,9 @@ public class VideoCreationRequest {
 
     @JsonProperty("thumbnail_url")
     String thumbnailUrl;
+
+    @JsonProperty("tag_ids")
+    Set<Integer> tagIds;
 
     @Builder.Default
     LocalDateTime uploadedAt = LocalDateTime.now();

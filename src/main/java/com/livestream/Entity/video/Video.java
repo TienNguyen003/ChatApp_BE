@@ -38,6 +38,10 @@ public class Video {
 
     int views;
 
+    int likes;
+
+    int dislikes;
+
     String duration;
 
     String videoUrl;
