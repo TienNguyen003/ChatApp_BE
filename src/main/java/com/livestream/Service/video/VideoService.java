@@ -1,11 +1,22 @@
 package com.livestream.Service.video;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.video.VideoCreationRequest;
 import com.livestream.DTO.request.video.VideoUpdateRequest;
 import com.livestream.DTO.response.video.VideoResponse;
 import com.livestream.Entity.category.Category;
 import com.livestream.Entity.channel.Channel;
 import com.livestream.Entity.tag.Tag;
+import com.livestream.Entity.user.Users;
 import com.livestream.Entity.video.Video;
 import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
@@ -13,24 +24,19 @@ import com.livestream.Mapper.video.VideoMapper;
 import com.livestream.Repository.category.CategoryRepository;
 import com.livestream.Repository.channel.ChannelRepository;
 import com.livestream.Repository.tag.TagRepository;
+import com.livestream.Repository.user.UserRepository;
 import com.livestream.Repository.video.VideoRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VideoService {
     VideoRepository videoRepository;
+    UserRepository userRepository;
     ChannelRepository channelRepository;
     CategoryRepository categoryRepository;
     TagRepository tagRepository;
@@ -108,9 +114,27 @@ public class VideoService {
                         .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED)));
     }
 
-    public Page<VideoResponse> getAllVideos(Pageable pageable) {
-        return videoRepository.findAll(pageable)
-                .map(videoMapper::toVideoResponse);
+    public Page<VideoResponse> getAllVideos(String keyWord, Pageable pageable) {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        if (keyWord.equals("trending")) {
+            LocalDateTime cutoffDate = LocalDateTime.now().minusDays(7);
+            return videoRepository.findTrendingVideos(cutoffDate, pageable)
+                    .map(videoMapper::toVideoResponse);
+        } else if (keyWord.equals("new")) {
+            return videoRepository.findAllByOrderByUploadedAtDesc(pageable)
+                    .map(videoMapper::toVideoResponse);
+        } else if (keyWord.equals("following")) {
+            return videoRepository.findAllByFollowerId(user.getId(), pageable)
+                    .map(videoMapper::toVideoResponse);
+        } else {
+            return videoRepository.findAll(pageable)
+                    .map(videoMapper::toVideoResponse);
+        }
     }
 
     public Page<VideoResponse> getVideosByChannel(int channelId, Pageable pageable) {

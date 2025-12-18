@@ -28,4 +28,9 @@ public interface VideoRepository extends JpaRepository<Video, Integer> {
 
     @Query("SELECT v FROM Video v WHERE v.category.id IN (SELECT DISTINCT v2.category.id FROM Video v2 WHERE v2.id IN :watchedVideoIds) AND v.id NOT IN :watchedVideoIds ORDER BY v.views DESC")
     Page<Video> findRecommendedVideos(@Param("watchedVideoIds") List<Integer> watchedVideoIds, Pageable pageable);
+
+    Page<Video> findAllByOrderByUploadedAtDesc(Pageable pageable);
+
+    @Query("SELECT v FROM Video v JOIN Follower f ON f.channel.id = v.channel.id WHERE f.follower.id = :followerId")
+    Page<Video> findAllByFollowerId(int followerId, Pageable pageable);
 }
