@@ -37,4 +37,16 @@ public class Subscription {
     LocalDateTime startedAt;
 
     int months;
+
+    // New fields for membership lifecycle
+    // ACTIVE, CANCELED, EXPIRED, PAST_DUE
+    String status;
+
+    @Column(nullable = false)
+    @Builder.Default
+    boolean autoRenew = true;
+
+    LocalDateTime nextBillingAt;
+
+    LocalDateTime endedAt;
 }

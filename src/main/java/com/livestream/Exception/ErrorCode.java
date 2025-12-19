@@ -98,6 +98,26 @@ public enum ErrorCode {
 	FOLLOWERS_ONLY_MODE(403, "Chỉ người theo dõi mới được chat.", HttpStatus.FORBIDDEN),
 	SUBSCRIBERS_ONLY_MODE(403, "Chỉ người đăng ký mới được chat.", HttpStatus.FORBIDDEN),
 
+	// wallet
+	WALLET_NOT_FOUND(504, "Không tìm thấy ví.", HttpStatus.NOT_FOUND),
+	INSUFFICIENT_BALANCE(402, "Số dư không đủ.", HttpStatus.PAYMENT_REQUIRED),
+
+	// rewards/missions
+	MISSION_NOT_FOUND(504, "Nhiệm vụ không tồn tại.", HttpStatus.NOT_FOUND),
+	MISSION_EXISTED(502, "Nhiệm vụ đã tồn tại.", HttpStatus.BAD_REQUEST),
+	MISSION_NOT_COMPLETED(400, "Nhiệm vụ chưa hoàn thành.", HttpStatus.BAD_REQUEST),
+	MISSION_ALREADY_CLAIMED(502, "Nhiệm vụ đã được nhận thưởng.", HttpStatus.BAD_REQUEST),
+
+	// events
+	EVENT_NOT_FOUND(504, "Sự kiện không tồn tại.", HttpStatus.NOT_FOUND),
+	ALREADY_JOINED_EVENT(502, "Bạn đã tham gia sự kiện này.", HttpStatus.BAD_REQUEST),
+
+	// support
+	TICKET_NOT_FOUND(504, "Ticket không tồn tại.", HttpStatus.NOT_FOUND),
+
+	// site info
+	SITE_INFO_NOT_FOUND(504, "Nội dung không tồn tại.", HttpStatus.NOT_FOUND),
+
 	;
 
 	ErrorCode(int code, String message, HttpStatusCode statusCode) {

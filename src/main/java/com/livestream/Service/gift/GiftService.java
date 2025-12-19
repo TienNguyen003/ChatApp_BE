@@ -1,5 +1,14 @@
 package com.livestream.Service.gift;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.gift.GiftRequest;
 import com.livestream.DTO.request.gift.SendGiftRequest;
 import com.livestream.DTO.response.gift.GiftResponse;
@@ -14,16 +23,11 @@ import com.livestream.Repository.channel.ChannelRepository;
 import com.livestream.Repository.gift.GiftRepository;
 import com.livestream.Repository.gift.UserGiftRepository;
 import com.livestream.Repository.user.UserRepository;
+import com.livestream.Service.wallet.WalletService;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +37,7 @@ public class GiftService {
     UserGiftRepository userGiftRepository;
     ChannelRepository channelRepository;
     UserRepository userRepository;
+    WalletService walletService;
     GiftMapper giftMapper;
 
     public GiftResponse createGift(GiftRequest request) {
@@ -71,6 +76,8 @@ public class GiftService {
 
         Gift gift = giftRepository.findById(request.getGiftId())
                 .orElseThrow(() -> new AppException(ErrorCode.GIFT_NOT_EXISTED));
+
+        walletService.debit(user, gift.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())), "GIFT", name);
 
         UserGift userGift = UserGift.builder()
                 .user(user)
