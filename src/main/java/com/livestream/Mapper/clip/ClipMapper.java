@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ClipMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(target = "livestream", ignore = true)
     @Mapping(target = "channel", ignore = true)
     Clip toClip(ClipCreationRequest request);

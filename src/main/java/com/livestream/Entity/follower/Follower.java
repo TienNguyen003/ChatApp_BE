@@ -1,7 +1,6 @@
 package com.livestream.Entity.follower;
 
 import com.livestream.Entity.channel.Channel;
-import com.livestream.Entity.livestream.Livestream;
 import com.livestream.Entity.user.Users;
 import jakarta.persistence.*;
 import lombok.*;
@@ -31,7 +30,7 @@ public class Follower {
     Channel channel;
 
     @Transient // ❗ rất quan trọng (không map DB)
-    String livestreamTitle; 
+    String livestreamTitle;
 
     @Transient
     String thumbnailUrl;

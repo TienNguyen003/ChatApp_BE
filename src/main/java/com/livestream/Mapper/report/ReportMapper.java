@@ -8,6 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "status", ignore = true)
     @Mapping(target = "reporter", ignore = true)
     @Mapping(target = "targetUser", ignore = true)
     @Mapping(target = "livestream", ignore = true)
