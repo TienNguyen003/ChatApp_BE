@@ -23,11 +23,12 @@ public class CloudinaryService {
         List<String> secureUrls = new ArrayList<>();
 
         for (MultipartFile file : files) {
-            Map<String, Object> uploadParams = ObjectUtils.asMap(
+            @SuppressWarnings("unchecked")
+            Map<String, Object> uploadParams = (Map<String, Object>) ObjectUtils.asMap(
                     "folder", folderName,
-                    "resource_type", "auto"
-            );
+                    "resource_type", "auto");
 
+            @SuppressWarnings("unchecked")
             Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), uploadParams);
 
             // Thêm URL của file đã upload vào danh sách
