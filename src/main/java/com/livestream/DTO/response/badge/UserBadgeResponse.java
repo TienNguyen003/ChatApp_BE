@@ -13,7 +13,10 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserBadgeResponse {
     int id;
+
     UserResponse user;
+
     BadgeResponse badge;
+    
     LocalDateTime assignedAt;
 }

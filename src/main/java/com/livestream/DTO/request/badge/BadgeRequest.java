@@ -1,5 +1,6 @@
 package com.livestream.DTO.request.badge;
 
+import com.livestream.Entity.badge.BadgeCategory;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -10,6 +11,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BadgeRequest {
     String name;
+
     String iconUrl;
+
     String description;
+    
+    BadgeCategory category;
 }

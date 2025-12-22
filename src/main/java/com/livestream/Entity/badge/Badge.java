@@ -23,4 +23,8 @@ public class Badge {
 
     @Column(columnDefinition = "TEXT")
     String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    BadgeCategory category;
 }
