@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class SupportController {
     SupportService supportService;
 
     @PostMapping("/tickets")
-    ApiResponse<SupportTicketResponse> createTicket(@RequestBody SupportTicketRequest request) {
+    ApiResponse<SupportTicketResponse> createTicket(@Valid @RequestBody SupportTicketRequest request) {
         return ApiResponse.<SupportTicketResponse>builder()
                 .result(supportService.createTicket(request))
                 .build();
@@ -46,7 +47,7 @@ public class SupportController {
     @PutMapping("/tickets/{id}")
     ApiResponse<SupportTicketResponse> updateTicket(
             @PathVariable Long id,
-            @RequestBody SupportTicketUpdateRequest request) {
+            @Valid @RequestBody SupportTicketUpdateRequest request) {
         return ApiResponse.<SupportTicketResponse>builder()
                 .result(supportService.updateTicket(id, request))
                 .build();

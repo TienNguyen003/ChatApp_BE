@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.ban.BanRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -30,7 +31,7 @@ public class BanController {
     BanService banService;
 
     @PostMapping("/channel/{channelId}")
-    ApiResponse<BanResponse> banUser(@PathVariable int channelId, @RequestBody BanRequest request) {
+    ApiResponse<BanResponse> banUser(@PathVariable int channelId, @Valid @RequestBody BanRequest request) {
         return ApiResponse.<BanResponse>builder()
                 .result(banService.banUser(channelId, request))
                 .build();

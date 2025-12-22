@@ -33,6 +33,7 @@ public class Livestream {
 
     String title;
 
+    @Column(columnDefinition = "TEXT")
     String description;
 
     int viewersCount;

@@ -24,6 +24,7 @@ import com.livestream.Util.PaginationUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}reports")
@@ -33,7 +34,7 @@ public class ReportController {
     ReportService reportService;
 
     @PostMapping
-    ApiResponse<ReportResponse> createReport(@RequestBody ReportRequest request) {
+    ApiResponse<ReportResponse> createReport(@Valid @RequestBody ReportRequest request) {
         return ApiResponse.<ReportResponse>builder()
                 .result(reportService.createReport(request))
                 .build();

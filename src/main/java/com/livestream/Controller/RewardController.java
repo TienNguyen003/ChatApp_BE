@@ -26,6 +26,7 @@ import com.livestream.Util.PaginationUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}rewards")
@@ -62,7 +63,7 @@ public class RewardController {
 
     // Admin CRUD endpoints
     @PostMapping("/missions")
-    ApiResponse<MissionResponse> createMission(@RequestBody MissionCreateRequest request) {
+    ApiResponse<MissionResponse> createMission(@Valid @RequestBody MissionCreateRequest request) {
         return ApiResponse.<MissionResponse>builder()
                 .result(rewardService.createMission(request))
                 .build();
@@ -71,7 +72,7 @@ public class RewardController {
     @PutMapping("/missions/{id}")
     ApiResponse<MissionResponse> updateMission(
             @PathVariable Long id,
-            @RequestBody MissionUpdateRequest request) {
+            @Valid @RequestBody MissionUpdateRequest request) {
         return ApiResponse.<MissionResponse>builder()
                 .result(rewardService.updateMission(id, request))
                 .build();

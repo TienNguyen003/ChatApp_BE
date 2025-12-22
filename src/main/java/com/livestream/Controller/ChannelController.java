@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.channel.ChannelCreationRequest;
 import com.livestream.DTO.request.channel.ChannelUpdateRequest;
@@ -35,7 +36,7 @@ public class ChannelController {
     ChannelService channelService;
 
     @PostMapping
-    ApiResponse<ChannelResponse> createChannel(@RequestBody ChannelCreationRequest request) {
+    ApiResponse<ChannelResponse> createChannel(@Valid @RequestBody ChannelCreationRequest request) {
         return ApiResponse.<ChannelResponse>builder()
                 .result(channelService.createChannel(request))
                 .build();
@@ -44,7 +45,7 @@ public class ChannelController {
     @PutMapping("/{id}")
     ApiResponse<ChannelResponse> updateChannel(
             @PathVariable int id,
-            @RequestBody ChannelUpdateRequest request) {
+            @Valid @RequestBody ChannelUpdateRequest request) {
         return ApiResponse.<ChannelResponse>builder()
                 .result(channelService.updateChannel(id, request))
                 .build();

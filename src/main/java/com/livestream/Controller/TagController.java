@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.tag.TagRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -33,7 +34,7 @@ public class TagController {
     TagService tagService;
 
     @PostMapping
-    ApiResponse<TagResponse> createTag(@RequestBody TagRequest request) {
+    ApiResponse<TagResponse> createTag(@Valid @RequestBody TagRequest request) {
         return ApiResponse.<TagResponse>builder()
                 .result(tagService.createTag(request))
                 .build();
@@ -42,7 +43,7 @@ public class TagController {
     @PutMapping("/{id}")
     ApiResponse<TagResponse> updateTag(
             @PathVariable int id,
-            @RequestBody TagRequest request) {
+            @Valid @RequestBody TagRequest request) {
         return ApiResponse.<TagResponse>builder()
                 .result(tagService.updateTag(id, request))
                 .build();

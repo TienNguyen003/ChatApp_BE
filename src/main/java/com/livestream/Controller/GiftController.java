@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.gift.GiftRequest;
 import com.livestream.DTO.request.gift.SendGiftRequest;
@@ -34,7 +35,7 @@ public class GiftController {
     GiftService giftService;
 
     @PostMapping
-    ApiResponse<GiftResponse> createGift(@RequestBody GiftRequest request) {
+    ApiResponse<GiftResponse> createGift(@Valid @RequestBody GiftRequest request) {
         return ApiResponse.<GiftResponse>builder()
                 .result(giftService.createGift(request))
                 .build();
@@ -43,7 +44,7 @@ public class GiftController {
     @PutMapping("/{id}")
     ApiResponse<GiftResponse> updateGift(
             @PathVariable int id,
-            @RequestBody GiftRequest request) {
+            @Valid @RequestBody GiftRequest request) {
         return ApiResponse.<GiftResponse>builder()
                 .result(giftService.updateGift(id, request))
                 .build();

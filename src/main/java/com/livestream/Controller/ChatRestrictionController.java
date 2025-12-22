@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.chat.ChatSettingsRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -26,7 +27,7 @@ public class ChatRestrictionController {
     @PutMapping("/livestream/{livestreamId}/settings")
     ApiResponse<ChatSettingsResponse> updateSettings(
             @PathVariable int livestreamId,
-            @RequestBody ChatSettingsRequest request) {
+            @Valid @RequestBody ChatSettingsRequest request) {
         return ApiResponse.<ChatSettingsResponse>builder()
                 .result(chatRestrictionService.updateChatSettings(livestreamId, request))
                 .build();

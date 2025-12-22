@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.badge.AssignBadgeRequest;
 import com.livestream.DTO.request.badge.BadgeRequest;
@@ -35,7 +36,7 @@ public class BadgeController {
     BadgeService badgeService;
 
     @PostMapping
-    ApiResponse<BadgeResponse> createBadge(@RequestBody BadgeRequest request) {
+    ApiResponse<BadgeResponse> createBadge(@Valid @RequestBody BadgeRequest request) {
         return ApiResponse.<BadgeResponse>builder()
                 .result(badgeService.createBadge(request))
                 .build();
@@ -44,7 +45,7 @@ public class BadgeController {
     @PutMapping("/{id}")
     ApiResponse<BadgeResponse> updateBadge(
             @PathVariable int id,
-            @RequestBody BadgeRequest request) {
+            @Valid @RequestBody BadgeRequest request) {
         return ApiResponse.<BadgeResponse>builder()
                 .result(badgeService.updateBadge(id, request))
                 .build();

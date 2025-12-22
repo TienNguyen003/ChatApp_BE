@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.subscription.SubscriptionRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -32,7 +33,7 @@ public class SubscriptionController {
     SubscriptionService subscriptionService;
 
     @PostMapping
-    ApiResponse<SubscriptionResponse> subscribe(@RequestBody SubscriptionRequest request) {
+    ApiResponse<SubscriptionResponse> subscribe(@Valid @RequestBody SubscriptionRequest request) {
         return ApiResponse.<SubscriptionResponse>builder()
                 .result(subscriptionService.subscribe(request))
                 .build();

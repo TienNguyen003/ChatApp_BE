@@ -1,7 +1,7 @@
 package com.livestream.DTO.request.chat;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -12,6 +12,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChatSettingsRequest {
     @JsonProperty("slow_mode_seconds")
+    @Min(0)
     int slowModeSeconds;
 
     @JsonProperty("followers_only_mode")

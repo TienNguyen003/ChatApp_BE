@@ -27,6 +27,7 @@ import com.livestream.Util.PaginationUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}event")
@@ -48,14 +49,14 @@ public class EventController {
     }
 
     @PostMapping
-    ApiResponse<EventResponse> create(@RequestBody EventCreateRequest request) {
+    ApiResponse<EventResponse> create(@Valid @RequestBody EventCreateRequest request) {
         return ApiResponse.<EventResponse>builder()
                 .result(eventService.createEvent(request))
                 .build();
     }
 
     @PutMapping("/{id}")
-    ApiResponse<EventResponse> update(@PathVariable int id, @RequestBody EventUpdateRequest request) {
+    ApiResponse<EventResponse> update(@PathVariable int id, @Valid @RequestBody EventUpdateRequest request) {
         return ApiResponse.<EventResponse>builder()
                 .result(eventService.updateEvent(id, request))
                 .build();
@@ -77,7 +78,7 @@ public class EventController {
     @PostMapping("/{id}/complete")
     ApiResponse<EventParticipationResponse> complete(
             @PathVariable int id,
-            @RequestBody EventCompleteRequest request) {
+            @Valid @RequestBody EventCompleteRequest request) {
         return ApiResponse.<EventParticipationResponse>builder()
                 .result(eventService.completeEvent(id, request))
                 .build();

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.reaction.ReactionRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -32,7 +33,7 @@ public class ReactionController {
     ReactionService reactionService;
 
     @PostMapping
-    ApiResponse<ReactionResponse> addReaction(@RequestBody ReactionRequest request) {
+    ApiResponse<ReactionResponse> addReaction(@Valid @RequestBody ReactionRequest request) {
         return ApiResponse.<ReactionResponse>builder()
                 .result(reactionService.addReaction(request))
                 .build();

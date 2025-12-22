@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.history.WatchHistoryRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -32,7 +33,7 @@ public class WatchHistoryController {
     WatchHistoryService watchHistoryService;
 
     @PostMapping
-    ApiResponse<WatchHistoryResponse> addWatchHistory(@RequestBody WatchHistoryRequest request) {
+    ApiResponse<WatchHistoryResponse> addWatchHistory(@Valid @RequestBody WatchHistoryRequest request) {
         return ApiResponse.<WatchHistoryResponse>builder()
                 .result(watchHistoryService.addWatchHistory(request))
                 .build();

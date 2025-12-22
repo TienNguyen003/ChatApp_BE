@@ -23,6 +23,7 @@ import com.livestream.Util.PaginationUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}clips")
@@ -32,7 +33,7 @@ public class ClipController {
     ClipService clipService;
 
     @PostMapping
-    ApiResponse<ClipResponse> createClip(@RequestBody ClipCreationRequest request) {
+    ApiResponse<ClipResponse> createClip(@Valid @RequestBody ClipCreationRequest request) {
         return ApiResponse.<ClipResponse>builder()
                 .result(clipService.createClip(request))
                 .build();

@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}about")
@@ -24,7 +25,7 @@ public class SiteInfoController {
     }
 
     @PostMapping
-    ApiResponse<SiteInfoResponse> create(@RequestBody SiteInfoCreateRequest request) {
+    ApiResponse<SiteInfoResponse> create(@Valid @RequestBody SiteInfoCreateRequest request) {
         return ApiResponse.<SiteInfoResponse>builder()
                 .result(siteInfoService.create(request.getKeyword(), request.getContent(), request.getUpdatedBy()))
                 .build();

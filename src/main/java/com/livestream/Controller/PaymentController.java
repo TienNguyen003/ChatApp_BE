@@ -23,6 +23,7 @@ import com.livestream.Util.PaginationUtil;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}payment")
@@ -32,7 +33,7 @@ public class PaymentController {
     PaymentService paymentService;
 
     @PostMapping("/create")
-    ApiResponse<PaymentResponse> createPayment(@RequestBody PaymentRequest request) {
+    ApiResponse<PaymentResponse> createPayment(@Valid @RequestBody PaymentRequest request) {
         return ApiResponse.<PaymentResponse>builder()
                 .result(paymentService.createPayment(request))
                 .build();

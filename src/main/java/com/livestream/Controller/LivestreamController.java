@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.livestream.LivestreamCreationRequest;
 import com.livestream.DTO.request.livestream.LivestreamUpdateRequest;
@@ -31,85 +32,85 @@ import lombok.experimental.FieldDefaults;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class LivestreamController {
-    LivestreamService livestreamService;
+        LivestreamService livestreamService;
 
-    @PostMapping
-    ApiResponse<LivestreamResponse> createLivestream(@RequestBody LivestreamCreationRequest request) {
-        return ApiResponse.<LivestreamResponse>builder()
-                .result(livestreamService.createLivestream(request))
-                .build();
-    }
+        @PostMapping
+        ApiResponse<LivestreamResponse> createLivestream(@Valid @RequestBody LivestreamCreationRequest request) {
+                return ApiResponse.<LivestreamResponse>builder()
+                                .result(livestreamService.createLivestream(request))
+                                .build();
+        }
 
-    @PutMapping("/{id}")
-    ApiResponse<LivestreamResponse> updateLivestream(
-            @PathVariable int id,
-            @RequestBody LivestreamUpdateRequest request) {
-        return ApiResponse.<LivestreamResponse>builder()
-                .result(livestreamService.updateLivestream(id, request))
-                .build();
-    }
+        @PutMapping("/{id}")
+        ApiResponse<LivestreamResponse> updateLivestream(
+                        @PathVariable int id,
+                        @Valid @RequestBody LivestreamUpdateRequest request) {
+                return ApiResponse.<LivestreamResponse>builder()
+                                .result(livestreamService.updateLivestream(id, request))
+                                .build();
+        }
 
-    @GetMapping("/{id}")
-    ApiResponse<LivestreamResponse> getLivestream(@PathVariable int id) {
-        return ApiResponse.<LivestreamResponse>builder()
-                .result(livestreamService.getLivestream(id))
-                .build();
-    }
+        @GetMapping("/{id}")
+        ApiResponse<LivestreamResponse> getLivestream(@PathVariable int id) {
+                return ApiResponse.<LivestreamResponse>builder()
+                                .result(livestreamService.getLivestream(id))
+                                .build();
+        }
 
-    @GetMapping("/list")
-    ApiResponse<List<LivestreamResponse>> getAllLivestreams(
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int limit) {
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<LivestreamResponse> pageData = livestreamService.getAllLivestreams(pageable);
-        return ApiResponse.<List<LivestreamResponse>>builder()
-                .result(pageData.getContent())
-                .page(PaginationUtil.buildPageCustom(pageData, page))
-                .build();
-    }
+        @GetMapping("/list")
+        ApiResponse<List<LivestreamResponse>> getAllLivestreams(
+                        @RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "20") int limit) {
+                Pageable pageable = PageRequest.of(page - 1, limit);
+                Page<LivestreamResponse> pageData = livestreamService.getAllLivestreams(pageable);
+                return ApiResponse.<List<LivestreamResponse>>builder()
+                                .result(pageData.getContent())
+                                .page(PaginationUtil.buildPageCustom(pageData, page))
+                                .build();
+        }
 
-    @GetMapping("/channel/{channelId}")
-    ApiResponse<List<LivestreamResponse>> getLivestreamsByChannel(
-            @PathVariable int channelId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int limit) {
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByChannel(channelId, pageable);
-        return ApiResponse.<List<LivestreamResponse>>builder()
-                .result(pageData.getContent())
-                .page(PaginationUtil.buildPageCustom(pageData, page))
-                .build();
-    }
+        @GetMapping("/channel/{channelId}")
+        ApiResponse<List<LivestreamResponse>> getLivestreamsByChannel(
+                        @PathVariable int channelId,
+                        @RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "20") int limit) {
+                Pageable pageable = PageRequest.of(page - 1, limit);
+                Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByChannel(channelId, pageable);
+                return ApiResponse.<List<LivestreamResponse>>builder()
+                                .result(pageData.getContent())
+                                .page(PaginationUtil.buildPageCustom(pageData, page))
+                                .build();
+        }
 
-    @GetMapping("/status/{status}")
-    ApiResponse<List<LivestreamResponse>> getLivestreamsByStatus(
-            @PathVariable String status,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int limit) {
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByStatus(status, pageable);
-        return ApiResponse.<List<LivestreamResponse>>builder()
-                .result(pageData.getContent())
-                .page(PaginationUtil.buildPageCustom(pageData, page))
-                .build();
-    }
+        @GetMapping("/status/{status}")
+        ApiResponse<List<LivestreamResponse>> getLivestreamsByStatus(
+                        @PathVariable String status,
+                        @RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "20") int limit) {
+                Pageable pageable = PageRequest.of(page - 1, limit);
+                Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByStatus(status, pageable);
+                return ApiResponse.<List<LivestreamResponse>>builder()
+                                .result(pageData.getContent())
+                                .page(PaginationUtil.buildPageCustom(pageData, page))
+                                .build();
+        }
 
-    @GetMapping("/category/{categoryId}")
-    ApiResponse<List<LivestreamResponse>> getLivestreamsByCategory(
-            @PathVariable int categoryId,
-            @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "20") int limit) {
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByCategory(categoryId, pageable);
-        return ApiResponse.<List<LivestreamResponse>>builder()
-                .result(pageData.getContent())
-                .page(PaginationUtil.buildPageCustom(pageData, page))
-                .build();
-    }
+        @GetMapping("/category/{categoryId}")
+        ApiResponse<List<LivestreamResponse>> getLivestreamsByCategory(
+                        @PathVariable int categoryId,
+                        @RequestParam(defaultValue = "1") int page,
+                        @RequestParam(defaultValue = "20") int limit) {
+                Pageable pageable = PageRequest.of(page - 1, limit);
+                Page<LivestreamResponse> pageData = livestreamService.getLivestreamsByCategory(categoryId, pageable);
+                return ApiResponse.<List<LivestreamResponse>>builder()
+                                .result(pageData.getContent())
+                                .page(PaginationUtil.buildPageCustom(pageData, page))
+                                .build();
+        }
 
-    @DeleteMapping("/{id}")
-    ApiResponse<Void> deleteLivestream(@PathVariable int id) {
-        livestreamService.deleteLivestream(id);
-        return ApiResponse.<Void>builder().build();
-    }
+        @DeleteMapping("/{id}")
+        ApiResponse<Void> deleteLivestream(@PathVariable int id) {
+                livestreamService.deleteLivestream(id);
+                return ApiResponse.<Void>builder().build();
+        }
 }

@@ -21,6 +21,7 @@ import com.livestream.Service.notification.NotificationService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}notifications")
@@ -30,7 +31,7 @@ public class NotificationController {
     NotificationService notificationService;
 
     @PostMapping
-    ApiResponse<NotificationResponse> createNotification(@RequestBody NotificationRequest request) {
+    ApiResponse<NotificationResponse> createNotification(@Valid @RequestBody NotificationRequest request) {
         return ApiResponse.<NotificationResponse>builder()
                 .result(notificationService.createNotification(request))
                 .build();

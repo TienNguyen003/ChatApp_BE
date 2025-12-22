@@ -19,6 +19,7 @@ import com.livestream.Service.moderator.ModeratorService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("${api.prefix}moderators")
@@ -28,7 +29,7 @@ public class ModeratorController {
     ModeratorService moderatorService;
 
     @PostMapping
-    ApiResponse<ModeratorResponse> assignModerator(@RequestBody ModeratorRequest request) {
+    ApiResponse<ModeratorResponse> assignModerator(@Valid @RequestBody ModeratorRequest request) {
         return ApiResponse.<ModeratorResponse>builder()
                 .result(moderatorService.assignModerator(request))
                 .build();

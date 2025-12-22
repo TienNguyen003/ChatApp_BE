@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.video.VideoCreationRequest;
 import com.livestream.DTO.request.video.VideoUpdateRequest;
@@ -34,7 +35,7 @@ public class VideoController {
     VideoService videoService;
 
     @PostMapping
-    ApiResponse<VideoResponse> createVideo(@RequestBody VideoCreationRequest request) {
+    ApiResponse<VideoResponse> createVideo(@Valid @RequestBody VideoCreationRequest request) {
         return ApiResponse.<VideoResponse>builder()
                 .result(videoService.createVideo(request))
                 .build();
@@ -43,7 +44,7 @@ public class VideoController {
     @PutMapping("/{id}")
     ApiResponse<VideoResponse> updateVideo(
             @PathVariable int id,
-            @RequestBody VideoUpdateRequest request) {
+            @Valid @RequestBody VideoUpdateRequest request) {
         return ApiResponse.<VideoResponse>builder()
                 .result(videoService.updateVideo(id, request))
                 .build();

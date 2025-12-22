@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.category.CategoryRequest;
 import com.livestream.DTO.response.ApiResponse;
@@ -33,7 +34,7 @@ public class CategoryController {
     CategoryService categoryService;
 
     @PostMapping
-    ApiResponse<CategoryResponse> createCategory(@RequestBody CategoryRequest request) {
+    ApiResponse<CategoryResponse> createCategory(@Valid @RequestBody CategoryRequest request) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(categoryService.createCategory(request))
                 .build();
@@ -42,7 +43,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     ApiResponse<CategoryResponse> updateCategory(
             @PathVariable int id,
-            @RequestBody CategoryRequest request) {
+            @Valid @RequestBody CategoryRequest request) {
         return ApiResponse.<CategoryResponse>builder()
                 .result(categoryService.updateCategory(id, request))
                 .build();
