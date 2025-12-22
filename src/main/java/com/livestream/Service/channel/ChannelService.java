@@ -1,5 +1,13 @@
 package com.livestream.Service.channel;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.channel.ChannelCreationRequest;
 import com.livestream.DTO.request.channel.ChannelUpdateRequest;
 import com.livestream.DTO.response.channel.ChannelResponse;
@@ -11,16 +19,10 @@ import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.channel.ChannelMapper;
 import com.livestream.Repository.channel.ChannelRepository;
 import com.livestream.Repository.user.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor

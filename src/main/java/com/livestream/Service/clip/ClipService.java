@@ -1,5 +1,9 @@
 package com.livestream.Service.clip;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.clip.ClipCreationRequest;
 import com.livestream.DTO.response.clip.ClipResponse;
 import com.livestream.Entity.clip.Clip;
@@ -9,12 +13,10 @@ import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.clip.ClipMapper;
 import com.livestream.Repository.clip.ClipRepository;
 import com.livestream.Repository.livestream.LivestreamRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor

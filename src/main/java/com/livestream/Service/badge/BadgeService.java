@@ -1,5 +1,12 @@
 package com.livestream.Service.badge;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.badge.AssignBadgeRequest;
 import com.livestream.DTO.request.badge.BadgeRequest;
 import com.livestream.DTO.response.badge.BadgeResponse;
@@ -14,15 +21,10 @@ import com.livestream.Mapper.badge.UserBadgeMapper;
 import com.livestream.Repository.badge.BadgeRepository;
 import com.livestream.Repository.badge.UserBadgeRepository;
 import com.livestream.Repository.user.UserRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

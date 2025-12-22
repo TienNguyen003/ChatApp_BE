@@ -1,5 +1,15 @@
 package com.livestream.Controller;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.livestream.DTO.response.ApiResponse;
 import com.livestream.DTO.response.channel.ChannelResponse;
 import com.livestream.DTO.response.livestream.LivestreamResponse;
@@ -7,15 +17,10 @@ import com.livestream.DTO.response.search.SearchResponse;
 import com.livestream.DTO.response.video.VideoResponse;
 import com.livestream.Service.search.SearchService;
 import com.livestream.Util.PaginationUtil;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("${api.prefix}search")

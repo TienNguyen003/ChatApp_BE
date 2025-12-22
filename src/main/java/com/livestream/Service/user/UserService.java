@@ -1,23 +1,7 @@
 package com.livestream.Service.user;
 
-import com.livestream.Entity.PageCustom;
-import com.livestream.Entity.role.Role;
-import com.livestream.Entity.user.Users;
-import com.livestream.Exception.AppException;
-import com.livestream.Exception.ErrorCode;
-import com.livestream.Mapper.user.UserMapper;
-import com.livestream.Service.EmailService;
-import com.livestream.Util.PaginationUtil;
-import com.livestream.DTO.request.user.UserChangePassRequest;
-import com.livestream.DTO.request.user.UserCreationRequest;
-import com.livestream.DTO.request.user.UserRsPass;
-import com.livestream.DTO.request.user.UserUpdateRequest;
-import com.livestream.DTO.response.user.UserResponse;
-import com.livestream.Repository.role.RoleRepository;
-import com.livestream.Repository.user.UserRepository;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +10,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.livestream.DTO.request.user.UserChangePassRequest;
+import com.livestream.DTO.request.user.UserCreationRequest;
+import com.livestream.DTO.request.user.UserRsPass;
+import com.livestream.DTO.request.user.UserUpdateRequest;
+import com.livestream.DTO.response.user.UserResponse;
+import com.livestream.Entity.PageCustom;
+import com.livestream.Entity.role.Role;
+import com.livestream.Entity.user.Users;
+import com.livestream.Exception.AppException;
+import com.livestream.Exception.ErrorCode;
+import com.livestream.Mapper.user.UserMapper;
+import com.livestream.Repository.role.RoleRepository;
+import com.livestream.Repository.user.UserRepository;
+import com.livestream.Service.EmailService;
+import com.livestream.Util.PaginationUtil;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
 @RequiredArgsConstructor
