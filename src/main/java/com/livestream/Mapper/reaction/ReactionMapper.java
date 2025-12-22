@@ -10,10 +10,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = { UserMapper.class, LivestreamMapper.class })
 public interface ReactionMapper {
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "livestream", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
     Reaction toReaction(ReactionRequest request);
 
     ReactionResponse toReactionResponse(Reaction reaction);

@@ -7,6 +7,5 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserRewardMapper {
-    @Mapping(target = "missionCode", source = "mission.code")
     UserRewardResponse toUserRewardResponse(UserReward userReward);
 }

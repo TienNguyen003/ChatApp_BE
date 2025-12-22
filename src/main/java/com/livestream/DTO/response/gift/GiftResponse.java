@@ -14,5 +14,6 @@ public class GiftResponse {
     int id;
     String name;
     String iconUrl;
+    String color;
     BigDecimal price;
 }

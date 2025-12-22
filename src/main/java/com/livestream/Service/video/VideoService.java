@@ -122,7 +122,7 @@ public class VideoService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
         if (keyWord.equals("trending")) {
-            LocalDateTime cutoffDate = LocalDateTime.now().minusDays(7);
+            LocalDateTime cutoffDate = LocalDateTime.now().minusDays(30);
             return videoRepository.findTrendingVideos(cutoffDate, pageable)
                     .map(videoMapper::toVideoResponse);
         } else if (keyWord.equals("new")) {

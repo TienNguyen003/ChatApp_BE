@@ -33,6 +33,8 @@ public class Livestream {
 
     String title;
 
+    String description;
+
     int viewersCount;
 
     String status;

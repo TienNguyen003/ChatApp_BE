@@ -10,10 +10,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = { UserMapper.class, ChannelMapper.class })
 public interface ModeratorMapper {
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "channel", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "assignedAt", ignore = true)
     Moderator toModerator(ModeratorRequest request);
 
     ModeratorResponse toModeratorResponse(Moderator moderator);

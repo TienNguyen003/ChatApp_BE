@@ -23,4 +23,5 @@ public class LivestreamResponse {
     LocalDateTime endedAt;
     String streamUrl;
     String thumbnailUrl;
+    String description;
 }

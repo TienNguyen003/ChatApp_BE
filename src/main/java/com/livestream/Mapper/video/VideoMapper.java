@@ -10,13 +10,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface VideoMapper {
-    @Mapping(target = "channel", ignore = true)
-    @Mapping(target = "category", ignore = true)
     Video toVideo(VideoCreationRequest request);
 
     VideoResponse toVideoResponse(Video video);
 
-    @Mapping(target = "channel", ignore = true)
-    @Mapping(target = "category", ignore = true)
     void updateVideo(@MappingTarget Video video, VideoUpdateRequest request);
 }

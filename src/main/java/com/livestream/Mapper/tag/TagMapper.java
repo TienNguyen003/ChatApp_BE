@@ -9,13 +9,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface TagMapper {
-    @Mapping(target = "livestreams", ignore = true)
-    @Mapping(target = "videos", ignore = true)
     Tag toTag(TagRequest request);
 
     TagResponse toTagResponse(Tag tag);
 
-    @Mapping(target = "livestreams", ignore = true)
-    @Mapping(target = "videos", ignore = true)
     void updateTag(@MappingTarget Tag tag, TagRequest request);
 }

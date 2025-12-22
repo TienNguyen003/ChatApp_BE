@@ -13,5 +13,6 @@ import java.math.BigDecimal;
 public class GiftRequest {
     String name;
     String iconUrl;
+    String color;
     BigDecimal price;
 }

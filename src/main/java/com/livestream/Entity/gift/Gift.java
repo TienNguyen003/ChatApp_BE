@@ -23,5 +23,7 @@ public class Gift {
 
     String iconUrl;
 
+    String color;
+
     BigDecimal price;
 }

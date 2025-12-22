@@ -10,11 +10,10 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface ChannelMapper {
-    @Mapping(target = "user", ignore = true)
+//    @Mapping(target = "user", ignore = true)
     Channel toChannel(ChannelCreationRequest request);
 
     ChannelResponse toChannelResponse(Channel channel);
 
-    @Mapping(target = "user", ignore = true)
     void updateChannel(@MappingTarget Channel channel, ChannelUpdateRequest request);
 }

@@ -8,10 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ChatCommentMapper {
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "createdAt", ignore = true)
-    @Mapping(target = "livestream", ignore = true)
-    @Mapping(target = "user", ignore = true)
     ChatComment toChatComment(ChatMessageRequest request);
 
     ChatCommentResponse toChatCommentResponse(ChatComment chatComment);

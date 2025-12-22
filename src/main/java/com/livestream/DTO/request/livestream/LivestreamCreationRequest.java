@@ -24,4 +24,6 @@ public class LivestreamCreationRequest {
 
     @JsonProperty("thumbnail_url")
     String thumbnailUrl;
+
+    String description;
 }

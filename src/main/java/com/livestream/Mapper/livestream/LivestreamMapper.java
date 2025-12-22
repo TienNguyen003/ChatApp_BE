@@ -10,13 +10,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface LivestreamMapper {
-    @Mapping(target = "channel", ignore = true)
-    @Mapping(target = "category", ignore = true)
     Livestream toLivestream(LivestreamCreationRequest request);
 
     LivestreamResponse toLivestreamResponse(Livestream livestream);
 
-    @Mapping(target = "channel", ignore = true)
-    @Mapping(target = "category", ignore = true)
     void updateLivestream(@MappingTarget Livestream livestream, LivestreamUpdateRequest request);
 }

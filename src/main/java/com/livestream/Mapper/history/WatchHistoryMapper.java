@@ -11,11 +11,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = { UserMapper.class, LivestreamMapper.class, VideoMapper.class })
 public interface WatchHistoryMapper {
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "livestream", ignore = true)
-    @Mapping(target = "video", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "watchedAt", ignore = true)
     WatchHistory toWatchHistory(WatchHistoryRequest request);
 
     WatchHistoryResponse toWatchHistoryResponse(WatchHistory watchHistory);

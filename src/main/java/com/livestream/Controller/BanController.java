@@ -1,14 +1,26 @@
 package com.livestream.Controller;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.livestream.DTO.request.ban.BanRequest;
 import com.livestream.DTO.response.ApiResponse;
 import com.livestream.DTO.response.ban.BanResponse;
 import com.livestream.Service.ban.BanService;
+import com.livestream.Util.PaginationUtil;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("${api.prefix}bans")
@@ -40,12 +52,14 @@ public class BanController {
     }
 
     @GetMapping("/channel/{channelId}/active")
-    ApiResponse<Page<BanResponse>> getActiveBans(
+    ApiResponse<List<BanResponse>> getActiveBans(
             @PathVariable int channelId,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit) {
-        return ApiResponse.<Page<BanResponse>>builder()
-                .result(banService.getBannedUsers(channelId, page, limit))
+            @RequestParam(defaultValue = "20") int limit) {
+        Page<BanResponse> pageData = banService.getBannedUsers(channelId, page, limit);
+        return ApiResponse.<List<BanResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 

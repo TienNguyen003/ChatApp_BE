@@ -11,6 +11,5 @@ import org.mapstruct.Mapping;
 public interface EventMapper {
     EventResponse toEventResponse(Event event);
 
-    @Mapping(target = "eventId", source = "event.id")
     EventParticipationResponse toParticipationResponse(EventParticipation participation);
 }

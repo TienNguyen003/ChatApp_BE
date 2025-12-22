@@ -9,11 +9,9 @@ import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface BadgeMapper {
-    @Mapping(target = "id", ignore = true)
     Badge toBadge(BadgeRequest request);
 
     BadgeResponse toBadgeResponse(Badge badge);
 
-    @Mapping(target = "id", ignore = true)
     void updateBadge(@MappingTarget Badge badge, BadgeRequest request);
 }

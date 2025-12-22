@@ -8,7 +8,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MissionMapper {
-    @Mapping(target = "rewardGift", expression = "java(toGiftInfo(mission.getRewardGift()))")
     MissionResponse toMissionResponse(Mission mission);
 
     default MissionResponse.RewardGiftInfo toGiftInfo(Gift gift) {

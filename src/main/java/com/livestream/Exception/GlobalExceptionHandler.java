@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	@ExceptionHandler(value = Exception.class)
-	ResponseEntity<ApiResponse<Void>> handlingRuntimeException(RuntimeException exception){
+	ResponseEntity<ApiResponse<Void>> handlingRuntimeException(Exception exception) {
 		ApiResponse<Void> apiResponse = new ApiResponse<>();
 
 		apiResponse.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = AppException.class)
-	ResponseEntity<ApiResponse<Void>> handlingAppException(AppException exception){
+	ResponseEntity<ApiResponse<Void>> handlingAppException(AppException exception) {
 		ErrorCode errorCode = exception.getErrorCode();
 		String formattedMessage = exception.getMessage(); // Lấy message đã format từ exception
 
@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = AccessDeniedException.class)
-	ResponseEntity<ApiResponse<Void>> handlingAccessDExp(AccessDeniedException exception){
+	ResponseEntity<ApiResponse<Void>> handlingAccessDExp(AccessDeniedException exception) {
 		ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
 
 		return ResponseEntity.status(errorCode.getStatusCode()).body(
@@ -43,7 +43,7 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
-	ResponseEntity<ApiResponse<Void>> handlingValidation(MethodArgumentNotValidException exception){
+	ResponseEntity<ApiResponse<Void>> handlingValidation(MethodArgumentNotValidException exception) {
 		String errorMessage = exception.getFieldError().getDefaultMessage();
 
 		ApiResponse<Void> apiResponse = new ApiResponse<>();
