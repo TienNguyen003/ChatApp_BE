@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.livestream.DTO.request.badge.AssignBadgeRequest;
 import com.livestream.DTO.request.badge.BadgeRequest;
+import com.livestream.DTO.request.badge.UpdateUserBadgeRequest;
 import com.livestream.DTO.response.badge.BadgeResponse;
 import com.livestream.DTO.response.badge.UserBadgeResponse;
 import com.livestream.Entity.badge.Badge;
@@ -88,6 +89,7 @@ public class BadgeService {
                 .user(user)
                 .badge(badge)
                 .assignedAt(LocalDateTime.now())
+                .currentValue(0)
                 .build();
 
         return userBadgeMapper.toUserBadgeResponse(userBadgeRepository.save(userBadge));
@@ -101,5 +103,44 @@ public class BadgeService {
         return userBadgeRepository.findByUserId(userId).stream()
                 .map(userBadgeMapper::toUserBadgeResponse)
                 .toList();
+    }
+
+    public UserBadgeResponse updateUserBadge(UpdateUserBadgeRequest request) {
+        UserBadge userBadge = userBadgeRepository.findById(request.getUserBadgeId())
+                .orElseThrow(() -> new AppException(ErrorCode.BADGE_NOT_EXISTED));
+
+        // Update progress
+        Integer newValue = userBadge.getCurrentValue();
+        if (request.getSetValue() != null) {
+            newValue = Math.max(0, request.getSetValue());
+        } else if (request.getDeltaValue() != null) {
+            int base = (newValue == null) ? 0 : newValue;
+            newValue = Math.max(0, base + request.getDeltaValue());
+        }
+
+        if (newValue != null) {
+            Integer target = userBadge.getBadge().getTargetValue();
+            if (target != null) {
+                newValue = Math.min(newValue, target);
+            }
+            userBadge.setCurrentValue(newValue);
+
+            // Auto-complete when reaching target
+            if (target != null && newValue >= target) {
+                userBadge.setIsCompleted(true);
+                if (userBadge.getCompletedAt() == null) {
+                    userBadge.setCompletedAt(LocalDateTime.now());
+                }
+            }
+        }
+
+        // Explicit completion toggle
+        if (request.getIsCompleted() != null) {
+            boolean completed = request.getIsCompleted();
+            userBadge.setIsCompleted(completed);
+            userBadge.setCompletedAt(completed ? LocalDateTime.now() : null);
+        }
+
+        return userBadgeMapper.toUserBadgeResponse(userBadgeRepository.save(userBadge));
     }
 }

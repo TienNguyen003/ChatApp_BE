@@ -18,6 +18,7 @@ import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.badge.AssignBadgeRequest;
 import com.livestream.DTO.request.badge.BadgeRequest;
+import com.livestream.DTO.request.badge.UpdateUserBadgeRequest;
 import com.livestream.DTO.response.ApiResponse;
 import com.livestream.DTO.response.badge.BadgeResponse;
 import com.livestream.DTO.response.badge.UserBadgeResponse;
@@ -94,6 +95,13 @@ public class BadgeController {
     ApiResponse<List<UserBadgeResponse>> getUserBadges(@PathVariable int userId) {
         return ApiResponse.<List<UserBadgeResponse>>builder()
                 .result(badgeService.getUserBadges(userId))
+                .build();
+    }
+
+    @PutMapping("/user-badge/update")
+    ApiResponse<UserBadgeResponse> updateUserBadge(@Valid @RequestBody UpdateUserBadgeRequest request) {
+        return ApiResponse.<UserBadgeResponse>builder()
+                .result(badgeService.updateUserBadge(request))
                 .build();
     }
 }

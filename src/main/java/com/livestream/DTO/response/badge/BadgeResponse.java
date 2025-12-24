@@ -1,6 +1,9 @@
 package com.livestream.DTO.response.badge;
 
 import com.livestream.Entity.badge.BadgeCategory;
+import com.livestream.Entity.badge.BadgeRarity;
+import com.livestream.Entity.gift.Gift;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,6 +20,14 @@ public class BadgeResponse {
     String iconUrl;
 
     String description;
-    
+
     BadgeCategory category;
+
+    BadgeRarity rarity;
+
+    Integer targetValue;
+
+    String color;
+
+    Gift gift;
 }

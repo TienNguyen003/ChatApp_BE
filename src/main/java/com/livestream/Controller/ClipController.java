@@ -70,13 +70,15 @@ public class ClipController {
     }
 
     @GetMapping("/channel/{channelId}")
-    ApiResponse<Page<ClipResponse>> getClipsByChannel(
+    ApiResponse<List<ClipResponse>> getClipsByChannel(
             @PathVariable int channelId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
-        return ApiResponse.<Page<ClipResponse>>builder()
-                .result(clipService.getClipsByChannel(channelId, pageable))
+        Page<ClipResponse> pageData = clipService.getClipsByChannel(channelId, pageable);
+        return ApiResponse.<List<ClipResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
 

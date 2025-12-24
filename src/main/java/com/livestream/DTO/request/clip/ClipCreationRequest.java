@@ -38,4 +38,8 @@ public class ClipCreationRequest {
     @JsonProperty("thumbnail_url")
     @Size(max = 500, message = "Thumbnail URL must not exceed 500 characters")
     String thumbnailUrl;
+
+    @JsonProperty("view")
+    @PositiveOrZero(message = "View must be greater than or equal to 0")
+    int view;
 }

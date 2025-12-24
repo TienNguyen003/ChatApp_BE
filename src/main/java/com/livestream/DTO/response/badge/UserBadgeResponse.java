@@ -17,6 +17,12 @@ public class UserBadgeResponse {
     UserResponse user;
 
     BadgeResponse badge;
-    
+
     LocalDateTime assignedAt;
+
+    Integer currentValue;
+
+    Boolean isCompleted;
+
+    LocalDateTime completedAt;
 }

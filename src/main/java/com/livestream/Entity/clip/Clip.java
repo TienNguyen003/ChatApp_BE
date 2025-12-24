@@ -36,4 +36,6 @@ public class Clip {
     String videoUrl;
 
     String thumbnailUrl;
+
+    int view;
 }

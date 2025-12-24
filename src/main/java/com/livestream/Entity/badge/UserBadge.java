@@ -29,4 +29,13 @@ public class UserBadge {
     Badge badge;
 
     LocalDateTime assignedAt;
+
+    @Column(name = "current_value")
+    Integer currentValue;
+
+    LocalDateTime completedAt;
+
+    @Column(nullable = false)
+    @Builder.Default
+    Boolean isCompleted = false;
 }

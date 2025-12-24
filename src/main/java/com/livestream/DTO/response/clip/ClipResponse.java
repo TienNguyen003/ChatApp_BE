@@ -19,4 +19,5 @@ public class ClipResponse {
     String endTime;
     String videoUrl;
     String thumbnailUrl;
+    int view;
 }
