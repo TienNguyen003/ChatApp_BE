@@ -1,4 +1,4 @@
-package com.livestream.Controller.wallet;
+package com.livestream.Controller;
 
 import com.livestream.DTO.request.wallet.TopUpPackageRequest;
 import com.livestream.DTO.response.ApiResponse;
