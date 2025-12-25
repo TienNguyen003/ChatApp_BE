@@ -11,9 +11,12 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
-@RequestMapping("${api.prefix}/top-up-packages")
+@RequestMapping("${api.prefix}top-up-packages")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TopUpPackageController {
@@ -70,4 +73,13 @@ public class TopUpPackageController {
                 .result(topUpPackageService.togglePackageStatus(id))
                 .build();
     }
+
+    @PostMapping("/purcharse/{id}")
+    public ApiResponse<String> postMethodName(@PathVariable Long id) {
+        topUpPackageService.purcharsePackage(id);        
+        return ApiResponse.<String>builder()
+                .result("Mua thành công")
+                .build();
+    }
+    
 }

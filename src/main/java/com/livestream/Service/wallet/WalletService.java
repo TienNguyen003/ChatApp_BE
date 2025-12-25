@@ -48,6 +48,8 @@ public class WalletService {
         wallet.setUpdatedAt(LocalDateTime.now());
         walletRepository.save(wallet);
 
+        
+
         transactionRepository.save(Transaction.builder()
                 .user(user)
                 .transactionType(type)
