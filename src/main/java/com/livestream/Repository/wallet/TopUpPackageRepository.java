@@ -1,14 +1,15 @@
 package com.livestream.Repository.wallet;
 
-import com.livestream.Entity.wallet.TopUpPackage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import com.livestream.Entity.wallet.TopUpPackage;
 
 @Repository
 public interface TopUpPackageRepository extends JpaRepository<TopUpPackage, Long> {
-    List<TopUpPackage> findByIsActiveTrueOrderByDisplayOrderAsc();
+    Page<TopUpPackage> findByIsActiveTrueOrderByDisplayOrderAsc(Pageable pageable);
 
-    List<TopUpPackage> findAllByOrderByDisplayOrderAsc();
+    Page<TopUpPackage> findAllByOrderByDisplayOrderAsc(Pageable pageable);
 }

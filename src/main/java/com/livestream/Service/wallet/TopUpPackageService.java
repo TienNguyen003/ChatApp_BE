@@ -1,5 +1,14 @@
 package com.livestream.Service.wallet;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Service;
+
 import com.livestream.DTO.request.wallet.TopUpPackageRequest;
 import com.livestream.DTO.response.wallet.TopUpPackageResponse;
 import com.livestream.Entity.user.Users;
@@ -9,15 +18,10 @@ import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.wallet.TopUpPackageMapper;
 import com.livestream.Repository.user.UserRepository;
 import com.livestream.Repository.wallet.TopUpPackageRepository;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,18 +58,14 @@ public class TopUpPackageService {
         return topUpPackageMapper.toTopUpPackageResponse(topUpPackage);
     }
 
-    public List<TopUpPackageResponse> getAllPackages() {
-        return topUpPackageRepository.findAllByOrderByDisplayOrderAsc()
-                .stream()
-                .map(topUpPackageMapper::toTopUpPackageResponse)
-                .collect(Collectors.toList());
+    public Page<TopUpPackageResponse> getAllPackages(Pageable pageable) {
+        return topUpPackageRepository.findAllByOrderByDisplayOrderAsc(pageable)
+                .map(topUpPackageMapper::toTopUpPackageResponse);
     }
 
-    public List<TopUpPackageResponse> getActivePackages() {
-        return topUpPackageRepository.findByIsActiveTrueOrderByDisplayOrderAsc()
-                .stream()
-                .map(topUpPackageMapper::toTopUpPackageResponse)
-                .collect(Collectors.toList());
+    public Page<TopUpPackageResponse> getActivePackages(Pageable pageable) {
+        return topUpPackageRepository.findByIsActiveTrueOrderByDisplayOrderAsc(pageable)
+                .map(topUpPackageMapper::toTopUpPackageResponse);
     }
 
     public TopUpPackageResponse togglePackageStatus(Long id) {
@@ -79,13 +79,14 @@ public class TopUpPackageService {
     public void purcharsePackage(Long id) {
         TopUpPackage topUpPackage = topUpPackageRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.PACKAGE_NOT_FOUND));
-        
+
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
 
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        walletService.credit(user, topUpPackage.getAmount(), "TOP_UP_PACKAGE", "Nạp tiền mua gói: " + topUpPackage.getId(), "WALLET_TRANSFER");
+        walletService.credit(user, topUpPackage.getAmount(), "TOP_UP_PACKAGE",
+                "Nạp tiền mua gói: " + topUpPackage.getId(), "WALLET_TRANSFER");
     }
 }
