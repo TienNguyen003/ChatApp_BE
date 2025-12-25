@@ -88,7 +88,7 @@ public class RewardService {
 
         // Credit wallet
         if (reward.getCoinAmount() != null && reward.getCoinAmount().compareTo(BigDecimal.ZERO) > 0) {
-            walletService.credit(user, reward.getCoinAmount(), "REWARD", "Nhận thưởng nhiệm vụ: " + mission.getCode());
+            walletService.credit(user, reward.getCoinAmount(), "REWARD", "Nhận thưởng nhiệm vụ: " + mission.getCode(), "WALLET");
         }
 
         return userRewardMapper.toUserRewardResponse(reward);

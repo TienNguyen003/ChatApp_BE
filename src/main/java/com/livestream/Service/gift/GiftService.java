@@ -77,7 +77,7 @@ public class GiftService {
         Gift gift = giftRepository.findById(request.getGiftId())
                 .orElseThrow(() -> new AppException(ErrorCode.GIFT_NOT_EXISTED));
 
-        walletService.debit(user, gift.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())), "GIFT", name);
+        walletService.debit(user, gift.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())), "GIFT", name, "WALLET");
 
         UserGift userGift = UserGift.builder()
                 .user(user)

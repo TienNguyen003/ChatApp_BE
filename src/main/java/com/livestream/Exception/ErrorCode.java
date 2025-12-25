@@ -101,6 +101,7 @@ public enum ErrorCode {
 	// wallet
 	WALLET_NOT_FOUND(504, "Không tìm thấy ví.", HttpStatus.NOT_FOUND),
 	INSUFFICIENT_BALANCE(402, "Số dư không đủ.", HttpStatus.PAYMENT_REQUIRED),
+	PACKAGE_NOT_FOUND(504, "Không tìm thấy gói nạp tiền.", HttpStatus.NOT_FOUND),
 
 	// rewards/missions
 	MISSION_NOT_FOUND(504, "Nhiệm vụ không tồn tại.", HttpStatus.NOT_FOUND),

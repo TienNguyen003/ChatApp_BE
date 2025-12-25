@@ -41,7 +41,7 @@ public class WalletService {
         return walletMapper.toWalletResponse(wallet);
     }
 
-    public void credit(Users user, BigDecimal amount, String type, String description) {
+    public void credit(Users user, BigDecimal amount, String type, String description, String paymentMethod) {
         Wallet wallet = walletRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.WALLET_NOT_FOUND));
         wallet.setBalance(wallet.getBalance().add(amount));
@@ -53,7 +53,7 @@ public class WalletService {
                 .transactionType(type)
                 .amount(amount.doubleValue())
                 .currency(wallet.getCurrency())
-                .paymentMethod("WALLET")
+                .paymentMethod(paymentMethod)
                 .status("COMPLETED")
                 .description(description)
                 .createdAt(LocalDateTime.now())
@@ -61,7 +61,7 @@ public class WalletService {
                 .build());
     }
 
-    public void debit(Users user, BigDecimal amount, String type, String description) {
+    public void debit(Users user, BigDecimal amount, String type, String description, String paymentMethod) {
         Wallet wallet = walletRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.WALLET_NOT_FOUND));
         if (wallet.getBalance().compareTo(amount) < 0) {
@@ -76,7 +76,7 @@ public class WalletService {
                 .transactionType(type)
                 .amount(amount.doubleValue())
                 .currency(wallet.getCurrency())
-                .paymentMethod("WALLET")
+                .paymentMethod(paymentMethod)
                 .status("COMPLETED")
                 .description(description)
                 .createdAt(LocalDateTime.now())

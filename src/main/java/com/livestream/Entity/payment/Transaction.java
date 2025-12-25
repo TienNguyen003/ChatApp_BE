@@ -24,7 +24,8 @@ public class Transaction {
     @JoinColumn(name = "user_id")
     Users user;
 
-    String transactionType; // GIFT, SUBSCRIPTION
+    // GIFT, SUBSCRIPTION, TOP_UP, INTERNAL_TRANSFER, GIFT_SPEND, REWARD, WITHDRAW
+    String transactionType;
 
     double amount;
 
@@ -35,6 +36,10 @@ public class Transaction {
     String status; // PENDING, COMPLETED, FAILED, REFUNDED
 
     String transactionId;
+
+    String referenceType; // LIVESTREAM_GIFT, MEMBERSHIP, EVENT_REWARD, WALLET_TRANSFER
+
+    String referenceId;
 
     String description;
 
