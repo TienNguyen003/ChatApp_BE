@@ -112,6 +112,7 @@ public enum ErrorCode {
 	// events
 	EVENT_NOT_FOUND(504, "Sự kiện không tồn tại.", HttpStatus.NOT_FOUND),
 	ALREADY_JOINED_EVENT(502, "Bạn đã tham gia sự kiện này.", HttpStatus.BAD_REQUEST),
+	EVENT_FULL(504, "Sự kiện đã đạt giới hạn người tham gia.", HttpStatus.BAD_REQUEST),
 
 	// support
 	TICKET_NOT_FOUND(504, "Ticket không tồn tại.", HttpStatus.NOT_FOUND),

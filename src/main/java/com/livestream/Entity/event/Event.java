@@ -21,6 +21,9 @@ public class Event {
 
     String name;
 
+    @Enumerated(EnumType.STRING)
+    EventType type;
+
     @Column(columnDefinition = "TEXT")
     String description;
 
@@ -30,8 +33,15 @@ public class Event {
 
     LocalDateTime endAt;
 
+    Integer maxParticipants; // max participants allowed, null = unlimited
+
+    Integer currentParticipants; // current count, updated when user joins
+
+    LocalDateTime publishedAt; // when event was published/registered
+
     @Column(columnDefinition = "TEXT")
     String rules; // optional JSON/text rules
 
+    @Column(columnDefinition = "TEXT")
     String prizeSummary; // short text about prizes
 }

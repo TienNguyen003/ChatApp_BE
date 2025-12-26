@@ -43,10 +43,14 @@ public class EventService {
         validateTime(request.getStartAt(), request.getEndAt());
         Event event = Event.builder()
                 .name(request.getName())
+                .type(request.getType())
                 .description(request.getDescription())
                 .bannerUrl(request.getBannerUrl())
                 .startAt(request.getStartAt())
                 .endAt(request.getEndAt())
+                .maxParticipants(request.getMaxParticipants())
+                .currentParticipants(0)
+                .publishedAt(LocalDateTime.now())
                 .rules(request.getRules())
                 .prizeSummary(request.getPrizeSummary())
                 .build();
@@ -57,22 +61,8 @@ public class EventService {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.EVENT_NOT_FOUND));
 
-        if (request.getName() != null)
-            event.setName(request.getName());
-        if (request.getDescription() != null)
-            event.setDescription(request.getDescription());
-        if (request.getBannerUrl() != null)
-            event.setBannerUrl(request.getBannerUrl());
-        if (request.getStartAt() != null)
-            event.setStartAt(request.getStartAt());
-        if (request.getEndAt() != null)
-            event.setEndAt(request.getEndAt());
-        if (request.getRules() != null)
-            event.setRules(request.getRules());
-        if (request.getPrizeSummary() != null)
-            event.setPrizeSummary(request.getPrizeSummary());
-
         validateTime(event.getStartAt(), event.getEndAt());
+        eventMapper.updateEventFromRequest(event, request);
         return eventMapper.toEventResponse(eventRepository.save(event));
     }
 
@@ -93,12 +83,22 @@ public class EventService {
             throw new AppException(ErrorCode.ALREADY_JOINED_EVENT);
         }
 
+        // Check max participants limit
+        if (event.getMaxParticipants() != null && event.getCurrentParticipants() >= event.getMaxParticipants()) {
+            throw new AppException(ErrorCode.EVENT_FULL);
+        }
+
         EventParticipation part = participationRepository.save(EventParticipation.builder()
                 .event(event)
                 .user(user)
                 .status("JOINED")
                 .joinedAt(LocalDateTime.now())
                 .build());
+
+        // Increment current participants count
+        event.setCurrentParticipants(event.getCurrentParticipants() != null ? event.getCurrentParticipants() + 1 : 1);
+        eventRepository.save(event);
+
         return eventMapper.toParticipationResponse(part);
     }
 
