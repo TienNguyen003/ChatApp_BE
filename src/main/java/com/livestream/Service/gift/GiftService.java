@@ -79,7 +79,7 @@ public class GiftService {
 
         String message = "%s gửi %s x%d".formatted(name, gift.getName(), request.getQuantity());
 
-        walletService.debit(user, gift.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())), "GIFT",
+        walletService.debit(user, gift.getPrice().multiply(BigDecimal.valueOf(request.getQuantity())), "SEND_GIFT",
                 message, "WALLET", "LIVESTREAM_GIFT",
                 String.valueOf(gift.getId()));
 

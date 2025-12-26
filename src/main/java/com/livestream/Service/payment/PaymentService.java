@@ -100,7 +100,7 @@ public class PaymentService {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        return transactionRepository.findByUserId(user.getId(), pageable)
+        return transactionRepository.findByUserIdOrderByCreatedAtDesc(user.getId(), pageable)
                 .map(transactionMapper::toTransactionResponse);
     }
 
