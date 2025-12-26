@@ -1,10 +1,10 @@
 package com.livestream.Mapper.reward;
 
+import org.mapstruct.Mapper;
+
 import com.livestream.DTO.response.reward.MissionResponse;
 import com.livestream.Entity.gift.Gift;
 import com.livestream.Entity.reward.Mission;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MissionMapper {
@@ -16,6 +16,7 @@ public interface MissionMapper {
         return MissionResponse.RewardGiftInfo.builder()
                 .id(gift.getId())
                 .name(gift.getName())
+                .color(gift.getColor())
                 .iconUrl(gift.getIconUrl())
                 .build();
     }

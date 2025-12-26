@@ -49,6 +49,19 @@ public class RewardService {
         return missionRepository.findAll(pageable).map(missionMapper::toMissionResponse);
     }
 
+    public Page<MissionResponse> getMyMissions(Pageable pageable) {
+        Users user = getCurrentUser();
+        return progressRepository.findByUserId(user.getId(), pageable)
+                .map(progress -> {
+                    MissionResponse response = missionMapper.toMissionResponse(progress.getMission());
+                    response.setStatus(progress.getStatus());
+                    response.setProgressValue(progress.getProgressValue());
+                    response.setCompletedAt(progress.getCompletedAt());
+                    response.setClaimedAt(progress.getClaimedAt());
+                    return response;
+                });
+    }
+
     public UserRewardResponse claimMission(String code) {
         Users user = getCurrentUser();
         Mission mission = missionRepository.findByCode(code)
@@ -88,7 +101,8 @@ public class RewardService {
 
         // Credit wallet
         if (reward.getCoinAmount() != null && reward.getCoinAmount().compareTo(BigDecimal.ZERO) > 0) {
-            walletService.credit(user, reward.getCoinAmount(), "REWARD", "Nhận thưởng nhiệm vụ: " + mission.getCode(), "WALLET");
+            walletService.credit(user, reward.getCoinAmount(), "REWARD", "Nhận thưởng nhiệm vụ: " + mission.getCode(),
+                    "WALLET");
         }
 
         return userRewardMapper.toUserRewardResponse(reward);

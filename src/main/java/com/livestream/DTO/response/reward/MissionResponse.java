@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -21,6 +22,12 @@ public class MissionResponse {
     RewardGiftInfo rewardGift;
     boolean active;
 
+    // User progress fields (when fetched via getMyMissions)
+    String status;
+    Integer progressValue;
+    LocalDateTime completedAt;
+    LocalDateTime claimedAt;
+
     @Data
     @Builder
     @NoArgsConstructor
@@ -29,6 +36,7 @@ public class MissionResponse {
     public static class RewardGiftInfo {
         Integer id;
         String name;
+        String color;
         String iconUrl;
     }
 }

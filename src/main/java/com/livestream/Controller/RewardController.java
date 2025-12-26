@@ -47,6 +47,18 @@ public class RewardController {
                 .build();
     }
 
+    @GetMapping("/my-missions")
+    ApiResponse<List<MissionResponse>> getMyMissions(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<MissionResponse> pageData = rewardService.getMyMissions(pageable);
+        return ApiResponse.<List<MissionResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
+                .build();
+    }
+
     @PostMapping("/checkin")
     ApiResponse<UserRewardResponse> dailyCheckin() {
         return ApiResponse.<UserRewardResponse>builder()
