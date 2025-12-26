@@ -27,10 +27,13 @@ public class TopUpPackage {
     String description;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    BigDecimal amount;
+    BigDecimal price;
 
     @Column(nullable = false, precision = 19, scale = 2)
-    BigDecimal bonusAmount;
+    BigDecimal baseCoins;
+
+    @Column(nullable = false, precision = 19, scale = 2)
+    BigDecimal bonusCoins;
 
     @Column(nullable = false)
     String currency;

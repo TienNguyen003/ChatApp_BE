@@ -20,13 +20,17 @@ public class TopUpPackageRequest {
     @NotBlank(message = "Description is required")
     String description;
 
-    @NotNull(message = "Amount is required")
-    @PositiveOrZero(message = "Amount must be positive or zero")
-    BigDecimal amount;
+    @NotNull(message = "Price is required")
+    @PositiveOrZero(message = "Price must be positive or zero")
+    BigDecimal price;
 
-    @NotNull(message = "Bonus amount is required")
-    @PositiveOrZero(message = "Bonus amount must be positive or zero")
-    BigDecimal bonusAmount;
+    @NotNull(message = "Base coins is required")
+    @PositiveOrZero(message = "Base coins must be positive or zero")
+    BigDecimal baseCoins;
+
+    @NotNull(message = "Bonus coins is required")
+    @PositiveOrZero(message = "Bonus coins must be positive or zero")
+    BigDecimal bonusCoins;
 
     @NotBlank(message = "Currency is required")
     String currency;

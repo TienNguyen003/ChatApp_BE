@@ -63,7 +63,7 @@ public class WalletService {
                 .build());
     }
 
-    public void debit(Users user, BigDecimal amount, String type, String description, String paymentMethod) {
+    public void debit(Users user, BigDecimal amount, String type, String description, String paymentMethod, String referenceType, String referenceId) {
         Wallet wallet = walletRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new AppException(ErrorCode.WALLET_NOT_FOUND));
         if (wallet.getBalance().compareTo(amount) < 0) {
@@ -81,6 +81,8 @@ public class WalletService {
                 .paymentMethod(paymentMethod)
                 .status("COMPLETED")
                 .description(description)
+                .referenceType(referenceType)
+                .referenceId(referenceId)
                 .createdAt(LocalDateTime.now())
                 .completedAt(LocalDateTime.now())
                 .build());

@@ -11,7 +11,7 @@ import org.mapstruct.MappingTarget;
 public interface TopUpPackageMapper {
     TopUpPackage toTopUpPackage(TopUpPackageRequest request);
 
-    @Mapping(target = "totalAmount", expression = "java(topUpPackage.getAmount().add(topUpPackage.getBonusAmount()))")
+    @Mapping(target = "totalCoins", expression = "java(topUpPackage.getBaseCoins().add(topUpPackage.getBonusCoins()))")
     TopUpPackageResponse toTopUpPackageResponse(TopUpPackage topUpPackage);
 
     void updateTopUpPackage(@MappingTarget TopUpPackage topUpPackage, TopUpPackageRequest request);

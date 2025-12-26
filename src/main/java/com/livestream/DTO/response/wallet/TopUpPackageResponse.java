@@ -15,9 +15,10 @@ public class TopUpPackageResponse {
     Long id;
     String name;
     String description;
-    BigDecimal amount;
-    BigDecimal bonusAmount;
-    BigDecimal totalAmount;
+    BigDecimal price;
+    BigDecimal baseCoins;
+    BigDecimal bonusCoins;
+    BigDecimal totalCoins;
     String currency;
     Boolean isActive;
     Boolean isPopular;

@@ -86,7 +86,7 @@ public class TopUpPackageService {
         Users user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        walletService.credit(user, topUpPackage.getAmount(), "TOP_UP_PACKAGE",
+        walletService.credit(user, topUpPackage.getPrice(), "TOP_UP_PACKAGE",
                 "Nạp tiền mua gói: " + topUpPackage.getId(), "WALLET_TRANSFER");
     }
 }
