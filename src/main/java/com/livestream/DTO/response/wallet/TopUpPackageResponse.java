@@ -20,6 +20,7 @@ public class TopUpPackageResponse {
     BigDecimal totalAmount;
     String currency;
     Boolean isActive;
+    Boolean isPopular;
     Integer displayOrder;
     String icon;
     LocalDateTime createdAt;

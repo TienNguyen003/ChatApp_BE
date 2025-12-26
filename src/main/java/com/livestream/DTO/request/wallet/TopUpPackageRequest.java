@@ -33,6 +33,8 @@ public class TopUpPackageRequest {
 
     Boolean isActive;
 
+    Boolean isPopular;
+
     Integer displayOrder;
 
     String icon;

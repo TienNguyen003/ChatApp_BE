@@ -20,6 +20,8 @@ public class TransactionResponse {
     String paymentMethod;
     String status;
     String transactionId;
+    String referenceType;
+    String referenceId;
     String description;
     LocalDateTime createdAt;
     LocalDateTime completedAt;

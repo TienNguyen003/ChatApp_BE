@@ -41,6 +41,9 @@ public class TopUpPackage {
     @Column(nullable = false)
     Integer displayOrder;
 
+    @Column(nullable = false)
+    Boolean isPopular;
+
     String icon;
 
     LocalDateTime createdAt;
@@ -53,6 +56,9 @@ public class TopUpPackage {
         updatedAt = LocalDateTime.now();
         if (isActive == null) {
             isActive = true;
+        }
+        if (isPopular == null) {
+            isPopular = false;
         }
         if (displayOrder == null) {
             displayOrder = 0;
