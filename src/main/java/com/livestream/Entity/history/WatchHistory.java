@@ -16,7 +16,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "watch_history")
+@Table(name = "watch_history", uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_video", columnNames = { "user_id", "video_id" }),
+        @UniqueConstraint(name = "uk_user_livestream", columnNames = { "user_id", "livestream_id" })
+})
 public class WatchHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,4 +38,9 @@ public class WatchHistory {
     Video video;
 
     LocalDateTime watchedAt;
+
+    Integer progressSeconds;
+    Integer durationSeconds;
+    LocalDateTime lastViewedAt;
+    Boolean completed;
 }

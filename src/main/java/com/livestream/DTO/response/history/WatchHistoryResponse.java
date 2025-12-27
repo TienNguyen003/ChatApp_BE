@@ -19,4 +19,8 @@ public class WatchHistoryResponse {
     LivestreamResponse livestream;
     VideoResponse video;
     LocalDateTime watchedAt;
+    Integer progressSeconds;
+    Integer durationSeconds;
+    LocalDateTime lastViewedAt;
+    Boolean completed;
 }

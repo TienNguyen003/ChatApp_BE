@@ -46,21 +46,27 @@ public class WatchHistoryService {
         Users user = userRepository.findByUsername(name)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
 
-        WatchHistory watchHistory = watchHistoryMapper.toWatchHistory(request);
-        watchHistory.setUser(user);
-        watchHistory.setWatchedAt(LocalDateTime.now());
-
-        if (request.getLivestreamId() != null) {
-            Livestream livestream = livestreamRepository.findById(request.getLivestreamId())
-                    .orElseThrow(() -> new AppException(ErrorCode.LIVESTREAM_NOT_EXISTED));
-            watchHistory.setLivestream(livestream);
-        }
+        WatchHistory watchHistory;
 
         if (request.getVideoId() != null) {
             Video video = videoRepository.findById(request.getVideoId())
                     .orElseThrow(() -> new AppException(ErrorCode.VIDEO_NOT_EXISTED));
-            watchHistory.setVideo(video);
+            watchHistory = watchHistoryRepository.findByUserIdAndVideoId(user.getId(), video.getId())
+                    .orElseGet(() -> WatchHistory.builder().user(user).video(video).build());
+        } else if (request.getLivestreamId() != null) {
+            Livestream livestream = livestreamRepository.findById(request.getLivestreamId())
+                    .orElseThrow(() -> new AppException(ErrorCode.LIVESTREAM_NOT_EXISTED));
+            watchHistory = watchHistoryRepository.findByUserIdAndLivestreamId(user.getId(), livestream.getId())
+                    .orElseGet(() -> WatchHistory.builder().user(user).livestream(livestream).build());
+        } else {
+            throw new AppException(ErrorCode.WATCH_HISTORY_NOT_EXISTED);
         }
+
+        watchHistory.setWatchedAt(LocalDateTime.now());
+        watchHistory.setLastViewedAt(LocalDateTime.now());
+        watchHistory.setProgressSeconds(request.getProgressSeconds());
+        watchHistory.setDurationSeconds(request.getDurationSeconds());
+        watchHistory.setCompleted(Boolean.TRUE.equals(request.getCompleted()));
 
         return watchHistoryMapper.toWatchHistoryResponse(watchHistoryRepository.save(watchHistory));
     }
