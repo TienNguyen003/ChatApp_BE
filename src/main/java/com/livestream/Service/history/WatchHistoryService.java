@@ -92,4 +92,14 @@ public class WatchHistoryService {
         }
         watchHistoryRepository.deleteById(id);
     }
+
+    public void clearWatchHistory() {
+        var context = SecurityContextHolder.getContext();
+        String name = context.getAuthentication().getName();
+
+        Users user = userRepository.findByUsername(name)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+
+        watchHistoryRepository.deleteByUserId(user.getId());
+    }
 }

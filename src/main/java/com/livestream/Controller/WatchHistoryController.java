@@ -58,4 +58,10 @@ public class WatchHistoryController {
         watchHistoryService.deleteWatchHistory(id);
         return ApiResponse.<Void>builder().build();
     }
+
+    @DeleteMapping("/clear")
+    ApiResponse<Void> clearWatchHistory() {
+        watchHistoryService.clearWatchHistory();
+        return ApiResponse.<Void>builder().build();
+    }
 }

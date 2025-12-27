@@ -21,4 +21,6 @@ public interface WatchHistoryRepository
     Optional<WatchHistory> findByUserIdAndVideoId(int userId, int videoId);
 
     Optional<WatchHistory> findByUserIdAndLivestreamId(int userId, int livestreamId);
+
+    void deleteByUserId(int userId);
 }
