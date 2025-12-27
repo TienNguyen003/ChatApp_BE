@@ -1,6 +1,7 @@
 package com.livestream.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,10 +42,11 @@ public class WatchHistoryController {
 
     @GetMapping("/my-history")
     ApiResponse<List<WatchHistoryResponse>> getMyWatchHistory(
+            @RequestParam(required = false) Map<String, Object> params,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<WatchHistoryResponse> pageData = watchHistoryService.getMyWatchHistory(pageable);
+        Page<WatchHistoryResponse> pageData = watchHistoryService.getMyWatchHistory(params, pageable);
         return ApiResponse.<List<WatchHistoryResponse>>builder()
                 .result(pageData.getContent())
                 .page(PaginationUtil.buildPageCustom(pageData, page))

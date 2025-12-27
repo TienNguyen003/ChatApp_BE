@@ -80,7 +80,7 @@ public class VideoController {
 
     @GetMapping("/list")
     ApiResponse<List<VideoResponse>> getAllVideos(
-            @RequestParam String search,
+            @RequestParam(required = false) String search,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);

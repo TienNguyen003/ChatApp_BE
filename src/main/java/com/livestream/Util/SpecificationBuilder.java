@@ -1,5 +1,7 @@
 package com.livestream.Util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import org.springframework.data.jpa.domain.Specification;
@@ -62,6 +64,41 @@ public class SpecificationBuilder {
                         predicate = criteriaBuilder.and(
                                 predicate,
                                 criteriaBuilder.equal(fieldPath, boolValue));
+                    } else if (fieldType.equals(LocalDateTime.class)) {
+                        // LocalDateTime → cố gắng parse từ String
+                        try {
+                            LocalDateTime start = LocalDateTime.parse(value.toString());
+                            LocalDateTime end = LocalDateTime.now();
+                            predicate = criteriaBuilder.and(
+                                    predicate,
+                                    criteriaBuilder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class), start),
+                                    criteriaBuilder.lessThan(fieldPath.as(LocalDateTime.class), end));
+                        } catch (Exception e) {
+                            System.err.println("Không thể parse LocalDateTime: " + value);
+                        }
+                    } else if (fieldType.equals(LocalDate.class)) {
+                        // LocalDate → dùng khoảng [startOfDay, startOfNextDay)
+                        try {
+                            LocalDate dateValue = LocalDate.parse(value.toString());
+                            LocalDateTime start = dateValue.atStartOfDay();
+                            LocalDateTime end = LocalDateTime.now();
+
+                            predicate = criteriaBuilder.and(
+                                    predicate,
+                                    criteriaBuilder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class), start),
+                                    criteriaBuilder.lessThan(fieldPath.as(LocalDateTime.class), end));
+                        } catch (Exception e) {
+                            System.err.println("Không thể parse LocalDate: " + value);
+                        }
+                    } else if (value instanceof LocalDate date) {
+                        // Fallback cho LocalDate
+                        LocalDateTime start = date.atStartOfDay();
+                        LocalDateTime end = date.plusDays(1).atStartOfDay();
+
+                        predicate = criteriaBuilder.and(
+                                predicate,
+                                criteriaBuilder.greaterThanOrEqualTo(fieldPath.as(LocalDateTime.class), start),
+                                criteriaBuilder.lessThan(fieldPath.as(LocalDateTime.class), end));
                     } else {
                         // Các kiểu khác → Dùng EQUALS
                         predicate = criteriaBuilder.and(
