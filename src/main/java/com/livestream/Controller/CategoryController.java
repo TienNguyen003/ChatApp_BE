@@ -1,6 +1,7 @@
 package com.livestream.Controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -69,6 +70,19 @@ public class CategoryController {
             @RequestParam(defaultValue = "20") int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
         Page<CategoryResponse> pageData = categoryService.getAllCategories(pageable);
+        return ApiResponse.<List<CategoryResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
+                .build();
+    }
+
+    @GetMapping("/search")
+    ApiResponse<List<CategoryResponse>> searchDynamic(
+            @RequestParam(required = false) Map<String, Object> params,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<CategoryResponse> pageData = categoryService.searchDynamic(params, pageable);
         return ApiResponse.<List<CategoryResponse>>builder()
                 .result(pageData.getContent())
                 .page(PaginationUtil.buildPageCustom(pageData, page))

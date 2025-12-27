@@ -1,6 +1,7 @@
 package com.livestream.Service.category;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import com.livestream.Exception.AppException;
 import com.livestream.Exception.ErrorCode;
 import com.livestream.Mapper.category.CategoryMapper;
 import com.livestream.Repository.category.CategoryRepository;
+import com.livestream.Util.SpecificationBuilder;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,7 @@ import lombok.experimental.FieldDefaults;
 public class CategoryService {
     CategoryRepository categoryRepository;
     CategoryMapper categoryMapper;
+    SpecificationBuilder predicateBuilder;
 
     public CategoryResponse createCategory(CategoryRequest request) {
         if (categoryRepository.existsByName(request.getName())) {
@@ -56,6 +59,12 @@ public class CategoryService {
 
     public Page<CategoryResponse> getAllCategories(Pageable pageable) {
         return categoryRepository.findAll(pageable)
+                .map(categoryMapper::toCategoryResponse);
+    }
+
+    public Page<CategoryResponse> searchDynamic(Map<String, Object> filters, Pageable pageable) {
+        var predicate = predicateBuilder.buildPredicate(filters, Category.class);
+        return categoryRepository.findAll(predicate, pageable)
                 .map(categoryMapper::toCategoryResponse);
     }
 
