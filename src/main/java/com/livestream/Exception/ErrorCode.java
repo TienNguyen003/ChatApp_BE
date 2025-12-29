@@ -54,7 +54,7 @@ public enum ErrorCode {
 
 	// subscription
 	SUBSCRIPTION_NOT_EXISTED(504, "Không tìm thấy đăng ký.", HttpStatus.NOT_FOUND),
-	ALREADY_SUBSCRIBED(502, "Đã đăng ký gói của kênh.", HttpStatus.BAD_REQUEST),
+	ALREADY_SUBSCRIBED(502, "Bạn đã đăng ký gói %s của kênh %s.", HttpStatus.BAD_REQUEST),
 
 	// badge
 	BADGE_NOT_EXISTED(504, "Huy hiệu không tồn tại.", HttpStatus.NOT_FOUND),

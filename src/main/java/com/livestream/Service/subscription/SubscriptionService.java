@@ -49,7 +49,7 @@ public class SubscriptionService {
 
         if (subscriptionRepository.findByUserIdAndSubscriptionPackage_Id(user.getId(), request.getPackageId())
                 .isPresent()) {
-            throw new AppException(ErrorCode.ALREADY_SUBSCRIBED);
+            throw new AppException(ErrorCode.ALREADY_SUBSCRIBED, subscriptionPackage.getTierName(), subscriptionPackage.getChannel().getName());
         }
 
         Subscription subscription = subscriptionMapper.toSubscription(request);
