@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import jakarta.validation.Valid;
 
 import com.livestream.DTO.request.subscription.SubscriptionRequest;
 import com.livestream.DTO.response.ApiResponse;
+import com.livestream.DTO.response.subscription.SubscriptionPackageResponse;
 import com.livestream.DTO.response.subscription.SubscriptionResponse;
 import com.livestream.Service.subscription.SubscriptionService;
 import com.livestream.Util.PaginationUtil;
 
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -64,11 +65,19 @@ public class SubscriptionController {
                 .build();
     }
 
-    @DeleteMapping("/cancel/{channelId}")
-    ApiResponse<Void> cancelSubscription(@PathVariable int channelId) {
-        subscriptionService.cancelSubscription(channelId);
+    @DeleteMapping("/cancel/{subscriptionId}")
+    ApiResponse<Void> cancelSubscription(@PathVariable int subscriptionId) {
+        subscriptionService.cancelSubscription(subscriptionId);
         return ApiResponse.<Void>builder()
                 .message("Hủy đăng ký thành công")
+                .build();
+    }
+
+    @GetMapping("/{packageId}/info")
+    ApiResponse<SubscriptionPackageResponse> getPackageInfo(
+            @PathVariable int packageId) {
+        return ApiResponse.<SubscriptionPackageResponse>builder()
+                .result(subscriptionService.getPackageInfo(packageId))
                 .build();
     }
 }

@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface SubscriptionRepository extends JpaRepository<Subscription, Integer> {
     Page<Subscription> findByUserId(int userId, Pageable pageable);
 
-    Page<Subscription> findByChannelId(int channelId, Pageable pageable);
+    Page<Subscription> findBySubscriptionPackage_Channel_Id(int channelId, Pageable pageable);
 
-    Optional<Subscription> findByUserIdAndChannelId(int userId, int channelId);
+    Optional<Subscription> findByUserIdAndSubscriptionPackage_Id(int userId, int packageId);
+
+    Optional<Subscription> findByUserId(int userId, int channelId);
 }

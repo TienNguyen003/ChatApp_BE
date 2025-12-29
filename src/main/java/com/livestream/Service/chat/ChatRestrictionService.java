@@ -115,7 +115,7 @@ public class ChatRestrictionService {
 
         // Check subscribers only mode
         if (livestream.isSubscribersOnlyMode()) {
-            boolean isSubscriber = subscriptionRepository.findByUserIdAndChannelId(
+            boolean isSubscriber = subscriptionRepository.findByUserId(
                     userId,
                     livestream.getChannel().getId()).isPresent();
 

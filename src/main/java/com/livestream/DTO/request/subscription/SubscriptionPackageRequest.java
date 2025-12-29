@@ -1,5 +1,10 @@
 package com.livestream.DTO.request.subscription;
 
+import java.math.BigDecimal;
+import java.util.List;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,10 +18,17 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class SubscriptionRequest {
+public class SubscriptionPackageRequest {
     @Positive
-    int packageId;
+    int tierLevel;
 
-    @Positive
-    int months;
+    @NotBlank
+    String tierName;
+
+    @DecimalMin(value = "0.0", inclusive = false)
+    BigDecimal price;
+
+    List<String> benefits;
+
+    String description;
 }

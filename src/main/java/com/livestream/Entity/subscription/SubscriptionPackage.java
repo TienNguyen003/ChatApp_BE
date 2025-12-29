@@ -1,8 +1,9 @@
 package com.livestream.Entity.subscription;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.livestream.Entity.user.Users;
+import com.livestream.Entity.channel.Channel;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,34 +28,30 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "subscriptions")
-public class Subscription {
+@Table(name = "subscription_packages")
+public class SubscriptionPackage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    Users user;
+    @JoinColumn(name = "channel_id", nullable = false)
+    Channel channel;
 
-    @ManyToOne
-    @JoinColumn(name = "package_id", nullable = false)
-    SubscriptionPackage subscriptionPackage;
+    int tierLevel; // 1, 2, 3
 
-    LocalDateTime startedAt;
+    String tierName; // VIP, Premium, Member
 
-    int months;
+    BigDecimal price;
 
-    // ACTIVE, CANCELED, EXPIRED, PAST_DUE
-    String status;
+    @Column(columnDefinition = "TEXT")
+    String benefits; // JSON: ["badge", "emoji", "early_access"]
 
-    @Column(nullable = false)
+    String description;
+
     @Builder.Default
-    boolean autoRenew = true;
-
-    LocalDateTime nextBillingAt;
-
-    LocalDateTime endedAt;
+    @Column(nullable = false)
+    boolean isActive = true;
 
     LocalDateTime createdAt;
 
