@@ -52,4 +52,16 @@ public class UserGiftController {
                 .page(PaginationUtil.buildPageCustom(pageData, page))
                 .build();
     }
+
+    @GetMapping("/my-gifts")
+    ApiResponse<List<UserGiftResponse>> getMyGiftHistory(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "20") int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<UserGiftResponse> pageData = userGiftService.getMyGiftHistory(pageable);
+        return ApiResponse.<List<UserGiftResponse>>builder()
+                .result(pageData.getContent())
+                .page(PaginationUtil.buildPageCustom(pageData, page))
+                .build();
+    }
 }
