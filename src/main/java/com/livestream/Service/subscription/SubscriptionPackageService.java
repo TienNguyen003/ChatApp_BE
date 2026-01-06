@@ -54,7 +54,15 @@ public class SubscriptionPackageService {
         return subscriptionPackageMapper.toResponse(saved);
     }
 
-    public List<SubscriptionPackageResponse> getChannelPackages(int channelId) {
+    public List<SubscriptionPackageResponse> getChannelPackages(Integer channelId) {
+        // Nếu channelId = 0 hoặc null, lấy package có channel null
+        if (channelId == null || channelId == 0) {
+            return subscriptionPackageRepository.findByChannelIsNull().stream()
+                    .map(subscriptionPackageMapper::toResponse)
+                    .toList();
+        }
+
+        // Nếu channelId > 0, lấy package của channel cụ thể
         return subscriptionPackageRepository.findByChannelId(channelId).stream()
                 .map(subscriptionPackageMapper::toResponse)
                 .toList();

@@ -12,4 +12,6 @@ public interface SubscriptionPackageRepository extends JpaRepository<Subscriptio
     List<SubscriptionPackage> findByChannelId(int channelId);
 
     List<SubscriptionPackage> findByChannelIdAndIsActiveTrue(int channelId);
+
+    List<SubscriptionPackage> findByChannelIsNull();
 }

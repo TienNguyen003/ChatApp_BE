@@ -36,7 +36,7 @@ public class ChannelSubscriptionController {
     }
 
     @GetMapping("/channel/{channelId}")
-    ApiResponse<List<SubscriptionPackageResponse>> getChannelPackages(@PathVariable int channelId) {
+    ApiResponse<List<SubscriptionPackageResponse>> getChannelPackages(@PathVariable Integer channelId) {
         return ApiResponse.<List<SubscriptionPackageResponse>>builder()
                 .result(subscriptionPackageService.getChannelPackages(channelId))
                 .build();
